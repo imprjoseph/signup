@@ -1,0 +1,758 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>內政部國土署 個資說明會及教育訓練</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ── 導覽列 ── -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <img id="logoImg" src="" alt="內政部國土署" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">內政部國土管理署</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#about">訓練目的</a></li>
+      <li><a href="#course">課程介紹</a></li>
+      <li><a href="#speakers">講師介紹</a></li>
+      <li><a href="#sessions">場次資訊</a></li>
+      <li><a href="#register">立即報名</a></li>
+      <li><a href="#faq">常見問題</a></li>
+      <li><a href="#contact">聯絡資訊</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="選單">☰</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about" onclick="toggleMenu()">訓練目的</a>
+    <a href="#course" onclick="toggleMenu()">課程介紹</a>
+    <a href="#speakers" onclick="toggleMenu()">講師介紹</a>
+    <a href="#sessions" onclick="toggleMenu()">場次資訊</a>
+    <a href="#register" onclick="toggleMenu()">立即報名</a>
+    <a href="#faq" onclick="toggleMenu()">常見問題</a>
+    <a href="#contact" onclick="toggleMenu()">聯絡資訊</a>
+  </div>
+</nav>
+
+<!-- ── Hero Section：純 Banner 版 ── -->
+<section class="hero hero-banner-only" id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content hero-content-minimal">
+    <div class="hero-actions">
+      <a href="#register" class="btn-hero">立即報名</a>
+      <a href="#sessions" class="btn-hero-secondary">查看場次</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── 浮動報名按鈕 ── -->
+<div class="float-btn" id="floatBtn">
+  <a href="#register" class="float-btn-link" id="floatBtnLink">
+    <span class="float-icon"></span>
+    <span class="float-text">立即報名</span>
+  </a>
+</div>
+
+<!-- ── 訓練目的 ── -->
+<section class="section section-gray" id="about">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">訓練目的</div>
+      <h2 class="section-title">為何參加本次訓練？</h2>
+    </div>
+    <div class="about-grid">
+        <div class="about-card">
+          <div class="about-icon">⚖️</div>
+          <h3>法規遵循</h3>
+          <p>協助業者瞭解個人資料保護法基本規範，建立正確法遵意識。</p>
+        </div>
+
+        <div class="about-card">
+          <div class="about-icon">🛡️</div>
+          <h3>個資保護</h3>
+          <p>強化個資蒐集、處理、利用及保存的正確觀念與管理責任。</p>
+        </div>
+
+        <div class="about-card">
+          <div class="about-icon">⚠️</div>
+          <h3>風險辨識</h3>
+          <p>提升業者於日常業務中對個資風險的辨識能力，降低外洩風險。</p>
+        </div>
+
+        <div class="about-card">
+          <div class="about-icon">🏢</div>
+          <h3>產業實務</h3>
+          <p>針對營造、不動產、大廈管理及建築師事務所等產業提供實務指引。</p>
+        </div>
+    </div>
+    <div class="about-text" id="aboutText">
+      <p>本訓練旨在協助營造、不動產、大廈管理及建築相關產業人員瞭解個人資料保護法之基本要求，建立正確個資蒐集、處理、利用及保存觀念，並強化業者於日常業務中對個資風險之辨識能力與管理責任。透過本次教育訓練，期能提升產業法遵意識，降低個資外洩與不當利用風險，促進相關業務執行更符合個資保護要求。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── 課程介紹 ── -->
+<section class="section" id="course">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">課程介紹</div>
+      <h2 class="section-title">課程內容概覽</h2>
+    </div>
+    <div class="course-layout">
+      <div class="course-info">
+        <div class="course-meta-grid">
+          <div class="course-meta-item">
+            <strong>課程對象</strong>
+            <p>營造業、不動產業、大廈管理業、建築師事務所及其他相關產業人員</p>
+          </div>
+          <div class="course-meta-item">
+            <strong>課程形式</strong>
+            <p>專題演講 + 案例解析 + 問答交流</p>
+          </div>
+        </div>
+        <div class="course-desc" id="courseDesc">
+          <p>本課程以個人資料保護法之基本規範與產業實務應用為核心，針對營造、不動產、大廈管理及建築師事務所等常見業務情境，說明個資蒐集、處理、利用、保存與安全維護之注意事項，並透過案例解析協助與會者理解實務風險與改善方向。</p>
+        </div>
+      </div>
+      <div class="course-topics">
+        <h3>課程重點</h3>
+        <ul class="topic-list">
+          <li><span class="topic-num">01</span>個人資料保護法基本規範</li>
+          <li><span class="topic-num">02</span>產業蒐集與利用個資常見情境</li>
+          <li><span class="topic-num">03</span>個資保存與安全維護措施</li>
+          <li><span class="topic-num">04</span>個資外洩或不當利用之風險</li>
+          <li><span class="topic-num">05</span>實務案例解析</li>
+          <li><span class="topic-num">06</span>問答交流</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 講師介紹 ── -->
+<section class="section section-gray" id="speakers">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">講師介紹</div>
+      <h2 class="section-title">本次課程講師</h2>
+    </div>
+    <div class="speakers-grid" id="speakersGrid">
+      <div class="loading-state">載入中...</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 場次資訊 ── -->
+<section class="section" id="sessions">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">場次資訊</div>
+      <h2 class="section-title">全台四區八場次</h2>
+    </div>
+    <div class="sessions-tabs">
+      <button class="tab-btn active" onclick="filterSessions('all')">全部場次</button>
+      <button class="tab-btn" onclick="filterSessions('北區')">北區</button>
+      <button class="tab-btn" onclick="filterSessions('中區')">中區</button>
+      <button class="tab-btn" onclick="filterSessions('南區')">南區</button>
+      <button class="tab-btn" onclick="filterSessions('東區')">東區</button>
+    </div>
+    <div class="sessions-grid" id="sessionsGrid">
+      <div class="loading-state">載入中...</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 報名須知 ── -->
+<section class="section section-blue" id="notice">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag light">報名須知</div>
+      <h2 class="section-title light">報名前請詳閱</h2>
+    </div>
+    <div class="notice-grid">
+      <div class="notice-item"> 每場名額 <strong>150人</strong>，額滿後自動進入候補</div>
+      <div class="notice-item">✅ 報名成功後將取得<strong>報到序號與 QR Code</strong></div>
+      <div class="notice-item"> 活動前將寄發 Email <strong>提醒通知</strong></div>
+      <div class="notice-item"> 現場請出示手機 <strong>QR Code 報到</strong></div>
+      <div class="notice-item"> 簡報下載將於現場提供 <strong>QR Code</strong></div>
+      <div class="notice-item"> 如開放直播，將另行寄發<strong>直播通知信</strong></div>
+      <div class="notice-item">✏️ 如需修改或取消，請<strong>洽活動窗口</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 個資宣告 & 報名表單 ── -->
+<section class="section" id="register">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">線上報名</div>
+      <h2 class="section-title">填寫報名資料</h2>
+    </div>
+
+    <!-- 成功畫面 -->
+    <div id="successPanel" style="display:none;" class="success-panel">
+      <div class="success-icon">✅</div>
+      <h2 id="successTitle">報名成功</h2>
+      <div class="success-info" id="successInfo"></div>
+      <div class="qr-section">
+        <p class="qr-label">您的報到 QR Code</p>
+        <img id="qrCodeImg" src="" alt="QR Code" class="qr-image">
+        <p class="qr-hint">請截圖保存，現場掃碼報到</p>
+        <div class="reg-no-box">報到序號：<strong id="regNoDisplay"></strong></div>
+      </div>
+      <p class="success-note"> 後續將由 Email 寄送確認信，請留意收件匣（含垃圾信件夾）。</p>
+      <button class="btn-primary" onclick="resetForm()">返回報名</button>
+    </div>
+
+    <!-- 報名表單 -->
+    <div id="registerPanel">
+      <form id="regForm" class="reg-form" onsubmit="return false;">
+
+        <!-- 個資宣告 -->
+        <div class="privacy-box" id="privacyBox">
+          <h3 class="privacy-title">個人資料蒐集告知事項</h3>
+          <p class="privacy-text" id="privacyText">本活動因報名、通知、報到、課程統計及活動行政管理需要，將蒐集您的姓名、服務單位、職稱、Email、聯絡電話、產業類別及出席紀錄等資料。相關資料僅供本次「個資說明會及教育訓練」活動行政聯繫、報到管理、統計分析及主辦單位成果彙整使用，不作其他目的使用。您可依個人資料保護法規定，向主辦單位請求查詢、閱覽、補充、更正或刪除個人資料。完成報名即表示您已閱讀並同意本個資蒐集告知事項。</p>
+          <label class="privacy-check">
+            <input type="checkbox" id="privacyConsent" required>
+            <span>我已閱讀並同意上述個資蒐集告知事項</span>
+          </label>
+        </div>
+
+        <!-- 場次選擇 -->
+        <div class="form-group">
+          <label class="form-label required">報名場次</label>
+          <select class="form-control" id="sessionId" required>
+            <option value="">── 請選擇場次 ──</option>
+          </select>
+          <div class="session-quota" id="sessionQuota"></div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label required">姓名</label>
+            <input class="form-control" type="text" id="name" placeholder="請輸入姓名" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">服務單位</label>
+            <input class="form-control" type="text" id="organization" placeholder="請輸入單位名稱" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label required">職稱</label>
+            <input class="form-control" type="text" id="jobTitle" placeholder="請輸入職稱" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">產業類別</label>
+            <select class="form-control" id="industryType" required>
+              <option value="">── 請選擇 ──</option>
+              <option value="營造業">營造業</option>
+              <option value="不動產業">不動產業</option>
+              <option value="大廈管理業">大廈管理業</option>
+              <option value="建築師事務所">建築師事務所</option>
+              <option value="其他">其他</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label required">Email</label>
+            <input class="form-control" type="email" id="email" placeholder="請輸入 Email" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">聯絡電話</label>
+            <input class="form-control" type="tel" id="phone" placeholder="請輸入聯絡電話" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">飲食需求</label>
+            <select class="form-control" id="mealType">
+              <option value="">── 請選擇 ──</option>
+              <option value="葷">葷食</option>
+              <option value="素">素食</option>
+              <option value="其他">其他</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">備註事項</label>
+            <input class="form-control" type="text" id="notes" placeholder="選填">
+          </div>
+        </div>
+
+        <div class="form-submit">
+          <div class="error-msg" id="formError" style="display:none;"></div>
+          <button type="button" class="btn-primary btn-large" onclick="submitForm()" id="submitBtn">
+            確認送出報名
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section class="section section-gray" id="faq">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">常見問題</div>
+      <h2 class="section-title">FAQ</h2>
+    </div>
+    <div class="faq-list" id="faqList">
+      <div class="loading-state">載入中...</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 聯絡資訊 ── -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">聯絡資訊</div>
+      <h2 class="section-title">有任何問題請聯繫我們</h2>
+    </div>
+    <div class="contact-card" id="contactCard">
+      <div class="contact-item">
+        <span class="contact-label">承辦單位</span>
+        <span id="contactUnit">—</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">聯絡人</span>
+        <span id="contactPerson">—</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">聯絡電話</span>
+        <span id="contactPhone">—</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">電子信箱</span>
+        <span id="contactEmail">—</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">服務時間</span>
+        <span id="serviceHours">週一至週五 09:00–17:00</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 頁尾 ── -->
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 內政部國土署 · 個人資料說明會及教育訓練活動</p>
+    <p>主辦單位：<span id="footerOrganizer">內政部國土署</span></p>
+  </div>
+</footer>
+
+<!-- ── 講師 Modal ── -->
+<div class="modal-overlay" id="speakerModal" onclick="closeSpeakerModal(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeSpeakerModal()">✕</button>
+    <div id="speakerModalContent"></div>
+  </div>
+</div>
+
+<script src="api.js"></script>
+<script>
+// ── 全域狀態 ──
+let allSessions = [];
+let settings = {};
+
+// ── 初始化 ──
+window.onload = function() {
+  loadSettings();
+  loadSessions();
+  loadSpeakers();
+  loadFAQ();
+  initScrollBehavior();
+};
+
+// ── API 請求 ── (GitHub Pages + GAS 模式)
+async function api(action, data) {
+  data = data || {};
+  return API.call(action, data);
+}
+
+// ────────────────────────────────────────────────────────────
+// ✅ 修正版 loadSettings
+// 只有一個函式主體，不再有孤立程式碼段落
+// ────────────────────────────────────────────────────────────
+async function loadSettings() {
+  var res;
+  try {
+    res = await api('getSettings');
+  } catch (err) {
+    console.error('getSettings 呼叫失敗：', err);
+    return;
+  }
+
+  if (!res || !res.success) {
+    console.error('getSettings 回傳失敗：', res);
+    return;
+  }
+
+  settings = res.data || {};
+
+  // ── Banner 背景圖 ──
+  // 優先使用 bannerDataUrl（Base64），其次 bannerUrl（Drive URL）
+  var bannerSrc = settings.bannerDataUrl || (settings.bannerUrl ? convertDriveUrl(settings.bannerUrl) : '') || 'https://lh3.googleusercontent.com/d/1eHDTFSLQcDeFOz9x7i3iA3bv3Bqh6GgB';
+  if (bannerSrc) {
+    var heroBg = document.getElementById('heroBg');
+    heroBg.style.backgroundImage = 'url("' + bannerSrc + '")';
+    heroBg.style.backgroundSize = 'cover';
+    heroBg.style.backgroundPosition = 'center center';
+    heroBg.style.backgroundRepeat = 'no-repeat';
+    console.log('✅ Banner 已套用');
+  } else {
+    console.warn('⚠️ Settings 裡沒有 bannerUrl 或 bannerDataUrl');
+  }
+
+  // ── Logo ──
+  var logoSrc = settings.logoDataUrl || (settings.logoUrl ? convertDriveUrl(settings.logoUrl) : '');
+  if (logoSrc) {
+    var logoImg = document.getElementById('logoImg');
+    logoImg.src = logoSrc;
+    logoImg.style.display = 'block';
+  }
+
+  // ── 內容文字 ──
+  if (settings.aboutText) {
+    document.getElementById('aboutText').innerHTML = '<p>' + settings.aboutText + '</p>';
+  }
+  if (settings.courseDesc) {
+    document.getElementById('courseDesc').innerHTML = '<p>' + settings.courseDesc + '</p>';
+  }
+
+  // ── 聯絡資訊 ──
+  document.getElementById('contactUnit').textContent    = settings.contactUnit    || '—';
+  document.getElementById('contactPerson').textContent  = settings.contactPerson  || '—';
+  document.getElementById('contactPhone').textContent   = settings.contactPhone   || '—';
+  document.getElementById('contactEmail').textContent   = settings.contactEmail   || '—';
+  document.getElementById('serviceHours').textContent   = settings.serviceHours   || '週一至週五 09:00–17:00';
+  document.getElementById('footerOrganizer').textContent = settings.activityOrganizer || '內政部國土管理署';
+}
+
+function convertDriveUrl(url) {
+  if (!url) return '';
+  url = String(url).trim();
+  var fileId = null;
+
+  var m1 = url.match(/\/d\/([a-zA-Z0-9_-]{10,})/);
+  if (m1) fileId = m1[1];
+
+  if (!fileId) {
+    var m2 = url.match(/[?&]id=([a-zA-Z0-9_-]{10,})/);
+    if (m2) fileId = m2[1];
+  }
+
+  if (fileId) {
+    return 'https://lh3.googleusercontent.com/d/' + fileId;
+  }
+  return url;
+}
+
+// ── 載入場次 ──
+async function loadSessions() {
+  var grid = document.getElementById('sessionsGrid');
+  var select = document.getElementById('sessionId');
+  grid.innerHTML = '<div class="loading-state">場次資料載入中...</div>';
+
+  try {
+    var res = await api('getSessions');
+    console.log('getSessions 回傳：', res);
+
+    if (!Array.isArray(res)) {
+      grid.innerHTML = '<div class="empty-state">場次資料載入失敗：後端回傳格式不是陣列，請檢查是否已部署新版。</div>';
+      if (select) select.innerHTML = '<option value="">場次資料載入失敗</option>';
+      return;
+    }
+
+    if (res.length === 0) {
+      grid.innerHTML = '<div class="empty-state">目前尚無場次資料，請確認 Sessions 工作表是否有資料。</div>';
+      if (select) select.innerHTML = '<option value="">目前尚無場次資料</option>';
+      return;
+    }
+
+    allSessions = res;
+    renderSessionSelect(res);
+    renderSessionCards(res);
+
+  } catch (err) {
+    console.error('loadSessions error:', err);
+    grid.innerHTML = '<div class="empty-state">場次資料載入發生錯誤：' + err.message + '</div>';
+    if (select) select.innerHTML = '<option value="">場次資料載入錯誤</option>';
+  }
+}
+
+function renderSessionSelect(sessions) {
+  const sel = document.getElementById('sessionId');
+  sel.innerHTML = '<option value="">── 請選擇場次 ──</option>';
+  sessions.forEach(s => {
+    if (s.registrationOpen === false || s.registrationOpen === 'FALSE') return;
+    const opt = document.createElement('option');
+    opt.value = s.sessionId;
+    const label = s.isFull
+      ? s.sessionName + '（' + s.date + '）【額滿—可候補】'
+      : s.sessionName + '（' + s.date + '）— 剩餘 ' + s.remaining + ' 名';
+    opt.textContent = label;
+    sel.appendChild(opt);
+  });
+  sel.addEventListener('change', updateSessionQuota);
+}
+
+function updateSessionQuota() {
+  const id = document.getElementById('sessionId').value;
+  const s = allSessions.find(s => s.sessionId === id);
+  const el = document.getElementById('sessionQuota');
+  if (!s) { el.innerHTML = ''; return; }
+  el.innerHTML = s.isFull
+    ? '<span class="quota-full">此場次已額滿，報名後將列為候補</span>'
+    : '<span class="quota-ok">✅ 剩餘名額：' + s.remaining + ' / ' + s.capacity + '</span>';
+}
+
+function filterSessions(region) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  const filtered = region === 'all' ? allSessions : allSessions.filter(s => s.region === region);
+  renderSessionCards(filtered);
+}
+
+function renderSessionCards(sessions) {
+  const grid = document.getElementById('sessionsGrid');
+  if (!sessions.length) { grid.innerHTML = '<div class="empty-state">無場次資料</div>'; return; }
+  grid.innerHTML = sessions.map(s => {
+    const isFull = s.isFull;
+    const isOpen = s.registrationOpen !== false && s.registrationOpen !== 'FALSE';
+    return `
+    <div class="session-card ${isFull ? 'is-full' : ''}">
+      <div class="session-card-header">
+        <span class="session-region">${s.region}</span>
+        <span class="session-slot">${s.timeSlot}</span>
+      </div>
+      <h3 class="session-name">${s.sessionName}</h3>
+      <div class="session-details">
+        <div class="session-detail"><span></span> ${s.date || '待公告'}</div>
+        <div class="session-detail"><span></span> ${s.startTime || '—'} – ${s.endTime || '—'}</div>
+        <div class="session-detail"><span></span> ${s.venue || '待公告'}</div>
+        <div class="session-detail"><span></span> ${s.address || '—'}</div>
+        ${s.transportation ? `<div class="session-detail"><span></span> ${s.transportation}</div>` : ''}
+      </div>
+      <div class="session-footer">
+        <div class="quota-bar">
+          <div class="quota-fill" style="width:${Math.min(100, ((s.capacity - s.remaining) / s.capacity) * 100)}%"></div>
+        </div>
+        <div class="quota-text">${isFull ? '額滿' : '剩餘 ' + s.remaining} / ${s.capacity} 人</div>
+        ${isOpen
+          ? `<button class="btn-session ${isFull ? 'btn-waitlist' : ''}" onclick="jumpToRegister('${s.sessionId}')">${isFull ? '登記候補' : '我要報名'}</button>`
+          : '<span class="badge-closed">報名截止</span>'
+        }
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── 載入講師 ──
+async function loadSpeakers() {
+  try {
+    const res = await api('getSpeakers');
+    const grid = document.getElementById('speakersGrid');
+    if (!Array.isArray(res) || !res.length) {
+      grid.innerHTML = '<div class="empty-state">講師資料稍後公告</div>';
+      return;
+    }
+    grid.innerHTML = res.map(s => `
+    <div class="speaker-card">
+      <div class="speaker-photo-wrap">
+        <img class="speaker-photo" src="${s.speakerPhotoUrl || ''}" alt="${s.speakerName}" onerror="this.src='https://via.placeholder.com/120x120?text=講師'">
+      </div>
+      <div class="speaker-info">
+        <h3 class="speaker-name">${s.speakerName}</h3>
+        <p class="speaker-org">${s.speakerOrganization}</p>
+        <p class="speaker-title-badge">${s.speakerTitle}</p>
+        <div class="speaker-tags">${(s.speakerTags||'').split(',').filter(Boolean).map(t=>`<span class="tag">${t.trim()}</span>`).join('')}</div>
+        <p class="speaker-short-bio">${s.shortBio || ''}</p>
+        <button class="btn-speaker-detail" onclick="openSpeakerModal(${JSON.stringify(s).replace(/"/g,'&quot;')})">查看詳細履歷</button>
+      </div>
+    </div>`).join('');
+  } catch (err) {
+    document.getElementById('speakersGrid').innerHTML = '<div class="empty-state">講師資料載入失敗</div>';
+    console.error('loadSpeakers error:', err);
+  }
+}
+
+function openSpeakerModal(s) {
+  const content = `
+    <div class="modal-speaker">
+      <div class="modal-speaker-header">
+        <img class="modal-photo" src="${s.speakerPhotoUrl||''}" alt="${s.speakerName}" onerror="this.src='https://via.placeholder.com/80x80?text=講師'">
+        <div>
+          <h2>${s.speakerName}</h2>
+          <p>${s.speakerOrganization} · ${s.speakerTitle}</p>
+        </div>
+      </div>
+      ${s.education  ? `<div class="modal-section"><strong>學歷</strong><p>${s.education}</p></div>` : ''}
+      ${s.expertise  ? `<div class="modal-section"><strong>專業領域</strong><p>${s.expertise}</p></div>` : ''}
+      ${s.experience ? `<div class="modal-section"><strong>相關經歷</strong><p>${s.experience}</p></div>` : ''}
+      ${s.courseFocus? `<div class="modal-section"><strong>本次授課重點</strong><p>${s.courseFocus}</p></div>` : ''}
+    </div>`;
+  document.getElementById('speakerModalContent').innerHTML = content;
+  document.getElementById('speakerModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSpeakerModal(e) {
+  if (!e || e.target === e.currentTarget) {
+    document.getElementById('speakerModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+// ── 載入 FAQ ──
+async function loadFAQ() {
+  try {
+    const res = await api('getFAQ');
+    const list = document.getElementById('faqList');
+    if (!Array.isArray(res) || !res.length) { list.innerHTML = '<div class="empty-state">FAQ 稍後公告</div>'; return; }
+    list.innerHTML = res.map((f, i) => `
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(${i})">
+        <span>Q${String(i+1).padStart(2,'0')} · ${f.question}</span>
+        <span class="faq-arrow" id="faqArrow${i}">▼</span>
+      </button>
+      <div class="faq-answer" id="faqAnswer${i}">${f.answer}</div>
+    </div>`).join('');
+  } catch (err) {
+    document.getElementById('faqList').innerHTML = '<div class="empty-state">FAQ 載入失敗</div>';
+    console.error('loadFAQ error:', err);
+  }
+}
+
+function toggleFAQ(idx) {
+  const el = document.getElementById('faqAnswer' + idx);
+  const arrow = document.getElementById('faqArrow' + idx);
+  el.classList.toggle('open');
+  arrow.textContent = el.classList.contains('open') ? '▲' : '▼';
+}
+
+// ── 報名表單 ──
+function jumpToRegister(sessionId) {
+  document.getElementById('sessionId').value = sessionId;
+  updateSessionQuota();
+  document.getElementById('register').scrollIntoView({ behavior: 'smooth' });
+}
+
+async function submitForm() {
+  const btn = document.getElementById('submitBtn');
+  const errEl = document.getElementById('formError');
+  errEl.style.display = 'none';
+
+  if (!document.getElementById('privacyConsent').checked) {
+    showError('請勾選個資蒐集同意事項'); return;
+  }
+
+  const data = {
+    sessionId:    document.getElementById('sessionId').value,
+    name:         document.getElementById('name').value.trim(),
+    organization: document.getElementById('organization').value.trim(),
+    title:        document.getElementById('jobTitle').value.trim(),
+    email:        document.getElementById('email').value.trim(),
+    phone:        document.getElementById('phone').value.trim(),
+    industryType: document.getElementById('industryType').value,
+    mealType:     document.getElementById('mealType').value,
+    notes:        document.getElementById('notes').value.trim(),
+    privacyConsent: true
+  };
+
+  const required = {
+    sessionId:'場次', name:'姓名', organization:'服務單位',
+    title:'職稱', email:'Email', phone:'聯絡電話', industryType:'產業類別'
+  };
+  for (const [key, label] of Object.entries(required)) {
+    if (!data[key]) { showError('請填寫「' + label + '」'); return; }
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) { showError('Email 格式不正確'); return; }
+
+  btn.disabled = true;
+  btn.textContent = '送出中...';
+
+  try {
+    const res = await api('submitRegistration', { data: data });
+
+    if (!res.success) {
+      showError(res.error || '報名失敗，請稍後再試');
+      btn.disabled = false;
+      btn.textContent = '確認送出報名';
+      return;
+    }
+
+    const d = res.data;
+    document.getElementById('registerPanel').style.display = 'none';
+    document.getElementById('successPanel').style.display = 'block';
+    document.getElementById('successTitle').textContent = d.status === '候補' ? '報名完成（候補）' : '報名成功（正取）';
+    document.getElementById('successInfo').innerHTML =
+      '<div class="success-row"><strong>姓名</strong>'  + data.name    + '</div>' +
+      '<div class="success-row"><strong>場次</strong>'  + d.sessionName + '</div>' +
+      '<div class="success-row"><strong>日期</strong>'  + d.date        + '</div>' +
+      '<div class="success-row"><strong>時間</strong>'  + d.startTime + ' – ' + d.endTime + '</div>' +
+      '<div class="success-row"><strong>地點</strong>'  + d.venue       + '</div>' +
+      '<div class="success-row"><strong>狀態</strong><span class="status-badge ' +
+        (d.status === '候補' ? 'badge-wait' : 'badge-ok') + '">' + d.status + '</span></div>';
+
+    document.getElementById('qrCodeImg').src = d.qrCodeImageUrl;
+    document.getElementById('regNoDisplay').textContent = d.registrationNo;
+    document.getElementById('successPanel').scrollIntoView({ behavior: 'smooth' });
+
+  } catch (err) {
+    showError('系統錯誤，請稍後再試');
+    btn.disabled = false;
+    btn.textContent = '確認送出報名';
+  }
+}
+
+function showError(msg) {
+  const el = document.getElementById('formError');
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function resetForm() {
+  document.getElementById('registerPanel').style.display = 'block';
+  document.getElementById('successPanel').style.display = 'none';
+  document.getElementById('regForm').reset();
+  document.getElementById('submitBtn').disabled = false;
+  document.getElementById('submitBtn').textContent = '確認送出報名';
+}
+
+// ── 浮動按鈕 & Scroll ──
+function initScrollBehavior() {
+  const navbar = document.getElementById('navbar');
+  const floatBtn = document.getElementById('floatBtn');
+  const registerSection = document.getElementById('register');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 80) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+    const rect = registerSection.getBoundingClientRect();
+    const nearForm = rect.top <= 200 && rect.bottom >= 0;
+    floatBtn.style.opacity = nearForm ? '0' : '1';
+    floatBtn.style.pointerEvents = nearForm ? 'none' : 'auto';
+  });
+}
+
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+</script>
+</body>
+</html>
+
+
+
