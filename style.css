@@ -536,3 +536,201 @@ body { color: var(--text); background: var(--white); line-height: 1.7; padding-t
   .float-btn { bottom: 16px; right: 16px; }
   .section { padding: 56px 0; }
 }
+
+/* =========================================================
+   Desktop Layout Hotfix v1
+   目的：修正網頁版排版不整齊
+   只影響桌機版，不動手機版、不動功能
+   ========================================================= */
+
+@media (min-width: 769px) {
+
+  /* 全站寬度統一 */
+  .container,
+  .nav-inner,
+  .hero-content {
+    max-width: 1180px;
+  }
+
+  /* 導覽列對齊 */
+  .nav-inner {
+    padding: 0 32px;
+  }
+
+  .nav-links {
+    gap: 10px;
+    align-items: center;
+  }
+
+  .nav-links a {
+    font-size: 0.92rem;
+    padding: 8px 12px;
+  }
+
+  .nav-title {
+    font-size: 1.05rem;
+    letter-spacing: 0.03em;
+  }
+
+  /* Hero 不要太高，讓首頁比較像網站 */
+  .hero,
+  .hero-banner-only {
+    height: 420px;
+    min-height: 420px;
+  }
+
+  .hero-bg {
+    background-size: cover;
+    background-position: center center;
+  }
+
+  .hero-content-minimal {
+    padding-bottom: 30px;
+  }
+
+  .hero-actions {
+    gap: 18px;
+  }
+
+  .btn-hero,
+  .btn-hero-secondary {
+    min-width: 170px;
+    text-align: center;
+  }
+
+  /* 區塊間距統一 */
+  .section {
+    padding: 72px 0;
+  }
+
+  .section-header {
+    margin-bottom: 40px;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    line-height: 1.35;
+  }
+
+  /* 訓練目的四張卡片等高、整齊 */
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    align-items: stretch;
+  }
+
+  .about-card {
+    min-height: 250px;
+    padding: 34px 26px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .about-icon {
+    font-size: 2.3rem;
+    margin-bottom: 18px;
+  }
+
+  .about-card h3 {
+    font-size: 1.15rem;
+    margin-bottom: 12px;
+  }
+
+  .about-card p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+  }
+
+  .about-text {
+    max-width: 960px;
+    margin: 34px auto 0;
+    padding: 24px 30px;
+    line-height: 1.9;
+  }
+
+  /* 課程介紹左右欄統一高度與寬度 */
+  .course-layout {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 36px;
+    align-items: stretch;
+  }
+
+  .course-info,
+  .course-topics {
+    min-height: 310px;
+  }
+
+  .course-meta-grid {
+    gap: 18px;
+  }
+
+  .course-meta-item {
+    padding: 20px;
+  }
+
+  .course-desc {
+    font-size: 0.98rem;
+    line-height: 1.85;
+  }
+
+  .course-topics {
+    padding: 34px 32px;
+  }
+
+  .topic-list li {
+    padding: 12px 0;
+  }
+
+  /* 場次卡片桌機版排列 */
+  .sessions-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    align-items: stretch;
+  }
+
+  .session-card {
+    min-height: 300px;
+    padding: 24px 22px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .session-details {
+    flex: 1;
+  }
+
+  .session-footer {
+    margin-top: auto;
+  }
+
+  /* 報名須知排列整齊 */
+  .notice-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+
+  .notice-item {
+    min-height: 78px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* 報名表單區塊寬度統一 */
+  .reg-form {
+    max-width: 900px;
+  }
+
+  .privacy-box {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* 避免浮動按鈕干擾桌機版內容 */
+  .float-btn {
+    right: 34px;
+    bottom: 34px;
+  }
+}
