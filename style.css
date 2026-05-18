@@ -1400,3 +1400,89 @@ img {
     justify-content: center;
   }
 }
+
+/* =========================================================
+   Final Center Layout Fix
+   只修桌機版內容偏右、卡片分散問題
+   不改功能、不改手機版、不改 API
+   ========================================================= */
+
+@media (min-width: 769px) {
+
+  /* 讓主要區塊不要撐太寬 */
+  .container {
+    max-width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* 訓練目的：固定成置中的 2x2 卡片 */
+  .about-grid {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 340px);
+    justify-content: center;
+    gap: 28px;
+  }
+
+  .about-card {
+    width: 340px;
+    min-height: 260px;
+  }
+
+  /* 課程介紹：兩欄置中，不要偏右 */
+  .course-layout {
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 400px);
+    justify-content: center;
+    gap: 32px;
+  }
+
+  .course-info,
+  .course-topics {
+    width: 400px;
+  }
+
+  /* 場次資訊：固定成置中的 2 欄 */
+  .sessions-grid {
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 400px);
+    justify-content: center;
+    gap: 32px;
+  }
+
+  .session-card {
+    width: 400px;
+  }
+
+  /* 報名須知：置中排列 */
+  .notice-grid {
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 400px);
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .notice-item {
+    width: 400px;
+  }
+
+  /* 報名表單置中 */
+  .privacy-box,
+  .reg-form {
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
