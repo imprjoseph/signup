@@ -1,0 +1,3379 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會議活動官方網站</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+    <!-- imPR-conf-v7 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* CSS 樣式 */
+        :root {
+            --primary-color: #1e40af;
+            --primary-light: #3b82f6;
+            --primary-dark: #1e3a8a;
+            --secondary-color: #64748b;
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --text-color: #1f2937;
+            --text-light: #6b7280;
+            --bg-color: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-gray: #f1f5f9;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --border-radius: 8px;
+            --border-radius-lg: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 載入動畫 */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 導航欄 */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 0;
+        }
+
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .navbar-brand {
+            font-size: clamp(14px, 2.2vw, 24px);
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            white-space: nowrap;
+            flex-shrink: 1;
+            min-width: 0;
+            max-width: 560px;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .navbar-link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+        }
+
+        .navbar-link:hover,
+        .navbar-link.active {
+            color: var(--primary-color);
+            background-color: var(--bg-light);
+        }
+
+        .language-switch {
+            display: flex;
+            gap: 5px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .lang-btn {
+            padding: 6px 12px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .lang-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        /* Hero 區塊 */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+            color: white;
+            padding: 120px 20px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.08)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-lg);
+            margin: 0 auto 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 32px;
+            opacity: 0.9;
+        }
+
+        .hero-meta {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .hero-meta-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-meta-label {
+            font-size: 14px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-meta-value {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 32px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #d97706;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* 倒數計時 */
+        .countdown {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-lg);
+            padding: 30px;
+            margin: 40px auto 0;
+            max-width: 600px;
+        }
+
+        .countdown-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .countdown-number {
+            font-size: 36px;
+            font-weight: 800;
+            display: block;
+            line-height: 1;
+        }
+
+        .countdown-label {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 區塊標題 */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-color);
+        }
+
+        .section-title p {
+            font-size: 18px;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 關於會議 */
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .about-card {
+            background: var(--bg-color);
+            border-radius: var(--border-radius-lg);
+            padding: 40px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .about-card h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        .about-card p {
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .about-card img {
+            width: 100%;
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+        }
+
+        /* 講師區塊 */
+        /* speaker-card styles moved to upgraded block below */
+
+        /* ── 講師卡片：圓形大頭照 + 簡介兩層設計 ── */
+        .speakers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 32px;
+        }
+
+        .speaker-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 32px 24px 24px;
+            text-align: center;
+        }
+
+        .speaker-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(30,64,175,0.13);
+        }
+
+        /* 圓形大頭照 */
+        .speaker-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: var(--bg-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            border: 4px solid #e0e7ff;
+            flex-shrink: 0;
+        }
+
+        .speaker-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .speaker-content {
+            width: 100%;
+        }
+
+        .speaker-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-color);
+        }
+
+        .speaker-title {
+            font-size: 14px;
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .speaker-org {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 14px;
+        }
+
+        .speaker-bio {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.65;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-align: left;
+        }
+
+        .speaker-detail-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 9px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+
+        .speaker-detail-btn:hover {
+            background: var(--primary-dark);
+            color: #fff;
+        }
+
+        /* 講師詳細 Modal 升級 */
+        .speaker-modal .modal-content {
+            max-width: 700px;
+        }
+
+        .speaker-detail {
+            display: flex;
+            gap: 32px;
+            align-items: flex-start;
+        }
+
+        .speaker-detail-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: var(--bg-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px;
+            color: var(--text-light);
+            flex-shrink: 0;
+            border: 4px solid #e0e7ff;
+        }
+
+        .speaker-detail-avatar img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+
+        .speaker-detail-body {
+            flex: 1;
+        }
+
+        .speaker-detail-body h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .speaker-detail-body .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .speaker-tag {
+            background: #eff6ff;
+            color: var(--primary-color);
+            border-radius: 20px;
+            padding: 3px 12px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .speaker-section-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 16px 0 6px;
+            border-left: 3px solid var(--primary-color);
+            padding-left: 8px;
+        }
+
+        .speaker-detail-body p {
+            font-size: 14px;
+            color: #374151;
+            line-height: 1.75;
+        }
+
+        @media (max-width: 600px) {
+            .speaker-detail { flex-direction: column; align-items: center; text-align: center; }
+            .speaker-detail-body .tag-row { justify-content: center; }
+        }
+
+        /* 議程區塊 */
+        .agenda-container {
+            background: var(--bg-light);
+            border-radius: var(--border-radius-lg);
+            padding: 40px;
+            margin-top: 40px;
+        }
+
+        .agenda-item {
+            display: flex;
+            gap: 30px;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .agenda-item:last-child {
+            border-bottom: none;
+        }
+
+        .agenda-time {
+            min-width: 120px;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 16px;
+        }
+
+        .agenda-content {
+            flex: 1;
+        }
+
+        .agenda-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+
+        .agenda-speaker {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 4px;
+        }
+
+        .agenda-location {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .agenda-notes {
+            font-size: 14px;
+            color: var(--text-light);
+            font-style: italic;
+            margin-top: 8px;
+        }
+
+        /* 交通資訊 */
+        /* ── 交通資訊：Google Maps 整合版 ── */
+        .traffic-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .traffic-layout { grid-template-columns: 1fr; }
+        }
+
+        .traffic-map-container {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            background: var(--bg-gray);
+            min-height: 380px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .traffic-map-container iframe {
+            width: 100%;
+            height: 380px;
+            border: 0;
+            display: block;
+        }
+
+        .traffic-map-placeholder {
+            text-align: center;
+            color: var(--text-light);
+            padding: 40px;
+        }
+
+        .traffic-map-placeholder i {
+            font-size: 48px;
+            color: var(--primary-light);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .traffic-info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .traffic-card {
+            background: var(--bg-color);
+            border-radius: 12px;
+            padding: 20px 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .traffic-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #eff6ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 18px;
+            color: var(--primary-color);
+        }
+
+        .traffic-card-body h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-color);
+        }
+
+        .traffic-card-body p {
+            color: var(--text-light);
+            line-height: 1.65;
+            font-size: 14px;
+            white-space: pre-line;
+        }
+
+        .traffic-open-map-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            background: var(--primary-color);
+            color: #fff;
+            border-radius: 8px;
+            padding: 7px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .traffic-open-map-btn:hover { background: var(--primary-dark); color: #fff; }
+
+        /* 歷年會議 */
+        .past-events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .past-event-card {
+            background: var(--bg-color);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .past-event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .past-event-image {
+            width: 100%;
+            height: 200px;
+            background: var(--bg-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: var(--text-light);
+        }
+
+        .past-event-content {
+            padding: 24px;
+        }
+
+        .past-event-year {
+            font-size: 14px;
+            color: var(--primary-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .past-event-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-color);
+        }
+
+        .past-event-desc {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .past-event-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .past-event-link:hover {
+            text-decoration: underline;
+        }
+
+        /* 浮動報名按鈕 */
+        /* ── 最新消息 ── */
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .news-card {
+            background: #fff;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            padding: 24px 28px;
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .news-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .news-date-block {
+            flex-shrink: 0;
+            text-align: center;
+            background: var(--primary-color);
+            color: #fff;
+            border-radius: 10px;
+            padding: 10px 14px;
+            min-width: 58px;
+        }
+
+        .news-date-day {
+            font-size: 24px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .news-date-mon {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+            opacity: 0.9;
+        }
+
+        .news-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .news-badge.important { background: #fee2e2; color: #dc2626; }
+        .news-badge.general   { background: #eff6ff; color: #1d4ed8; }
+        .news-badge.event     { background: #f0fdf4; color: #16a34a; }
+
+        .news-body { flex: 1; }
+
+        .news-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 6px;
+            line-height: 1.45;
+        }
+
+        .news-content {
+            font-size: 14px;
+            color: #6b7280;
+            line-height: 1.7;
+            white-space: pre-line;
+        }
+
+        .news-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: var(--primary-color);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .news-link:hover { text-decoration: underline; }
+
+        @media (max-width: 560px) {
+            .news-card { flex-direction: column; gap: 14px; }
+            .news-date-block { display: flex; align-items: center; gap: 8px; border-radius: 8px; padding: 8px 14px; }
+            .news-date-day { font-size: 18px; }
+        }
+
+
+        /* ══ 贊助商 ══ */
+        .sponsors-section { text-align:center; }
+        .sponsor-tier { margin-bottom:40px; }
+        .sponsor-tier-label {
+            display:inline-block; padding:4px 20px; border-radius:20px;
+            font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:20px;
+        }
+        .tier-platinum { background:#e8e8e8; color:#555; }
+        .tier-gold     { background:#fef3c7; color:#92400e; }
+        .tier-silver   { background:#f1f5f9; color:#475569; }
+        .tier-bronze   { background:#fef0e7; color:#9a3412; }
+        .tier-supporter{ background:#f0fdf4; color:#166534; }
+        .sponsor-logos { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:24px; }
+        .sponsor-logo-card {
+            background:#fff; border-radius:12px; border:1px solid var(--border-color);
+            padding:16px 28px; display:flex; align-items:center; justify-content:center;
+            min-width:140px; max-width:200px; height:80px;
+            box-shadow:var(--shadow); transition:transform 0.2s,box-shadow 0.2s;
+            text-decoration:none; color:var(--text-color);
+        }
+        .sponsor-logo-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); }
+        .sponsor-logo-card img { max-width:100%; max-height:50px; object-fit:contain; }
+        .sponsor-name-text { font-size:14px; font-weight:600; color:#374151; }
+
+        /* ══ 下載專區 ══ */
+        .downloads-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; }
+        .download-card {
+            background:#fff; border-radius:12px; border:1px solid var(--border-color);
+            padding:20px 24px; display:flex; align-items:center; gap:16px;
+            box-shadow:var(--shadow); text-decoration:none; color:inherit;
+            transition:transform 0.2s,box-shadow 0.2s;
+        }
+        .download-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-lg); color:inherit; }
+        .download-icon {
+            width:48px; height:48px; border-radius:10px; background:#eff6ff;
+            display:flex; align-items:center; justify-content:center;
+            font-size:22px; color:var(--primary-color); flex-shrink:0;
+        }
+        .download-card-body { flex:1; }
+        .download-title { font-size:15px; font-weight:600; color:var(--text-color); margin-bottom:4px; }
+        .download-meta  { font-size:12px; color:#9ca3af; }
+
+        /* ══ 直播 / 線上參與 ══ */
+        .livestream-header {
+            text-align:center; margin-bottom:36px;
+        }
+        .livestream-header h3 { font-size:24px; font-weight:800; color:var(--text-color); margin-bottom:8px; }
+        .livestream-header p  { color:#6b7280; font-size:15px; }
+
+        .livestream-platforms {
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+            gap:24px;
+        }
+
+        .platform-card {
+            border-radius:20px; padding:32px 28px; color:#fff;
+            display:flex; flex-direction:column; align-items:center;
+            text-align:center; gap:16px;
+            box-shadow:0 8px 24px rgba(0,0,0,0.15);
+            transition:transform 0.25s, box-shadow 0.25s;
+            position:relative; overflow:hidden;
+        }
+        .platform-card::before {
+            content:''; position:absolute; inset:0;
+            background:rgba(255,255,255,0.06); border-radius:20px;
+        }
+        .platform-card:hover { transform:translateY(-6px); box-shadow:0 16px 36px rgba(0,0,0,0.2); }
+
+        .platform-card.youtube  { background:linear-gradient(135deg,#c4302b,#ff0000); }
+        .platform-card.teams    { background:linear-gradient(135deg,#4b53bc,#6264a7); }
+        .platform-card.webex    { background:linear-gradient(135deg,#00853e,#00a86b); }
+        .platform-card.zoom     { background:linear-gradient(135deg,#0b5cff,#2d8cff); }
+        .platform-card.meet     { background:linear-gradient(135deg,#1a73e8,#34a853); }
+        .platform-card.custom   { background:linear-gradient(135deg,#374151,#6b7280); }
+
+        .platform-icon {
+            width:64px; height:64px; border-radius:16px;
+            background:rgba(255,255,255,0.2);
+            display:flex; align-items:center; justify-content:center;
+            font-size:28px; flex-shrink:0;
+        }
+
+        .platform-card h4 { font-size:18px; font-weight:700; margin:0; }
+        .platform-card p  { font-size:13px; opacity:.85; margin:0; line-height:1.6; }
+
+        .platform-join-btn {
+            display:inline-flex; align-items:center; gap:8px;
+            background:rgba(255,255,255,0.25); color:#fff;
+            border:2px solid rgba(255,255,255,0.5);
+            border-radius:50px; padding:10px 24px;
+            font-size:14px; font-weight:700;
+            text-decoration:none; transition:background 0.2s;
+            backdrop-filter:blur(4px);
+        }
+        .platform-join-btn:hover { background:rgba(255,255,255,0.38); color:#fff; }
+
+        .platform-card.disabled { opacity:.55; filter:grayscale(40%); }
+        .platform-card.disabled .platform-join-btn { pointer-events:none; cursor:default; }
+
+        .livestream-notice {
+            margin-top:28px; text-align:center;
+            background:#fffbeb; border-radius:12px; padding:16px 24px;
+            border:1px solid #fcd34d; font-size:14px; color:#92400e;
+        }
+
+        /* ══ FAQ ══ */
+        .faq-list { display:flex; flex-direction:column; gap:12px; }
+        .faq-item {
+            background:#fff; border-radius:12px; border:1px solid var(--border-color);
+            box-shadow:var(--shadow); overflow:hidden;
+        }
+        .faq-question {
+            padding:18px 24px; cursor:pointer; display:flex;
+            justify-content:space-between; align-items:center; gap:16px;
+            font-size:15px; font-weight:600; color:var(--text-color);
+            user-select:none; transition:background 0.15s;
+        }
+        .faq-question:hover { background:#f8fafc; }
+        .faq-question.open  { color:var(--primary-color); background:#eff6ff; }
+        .faq-chevron { font-size:12px; color:#9ca3af; transition:transform 0.25s; flex-shrink:0; }
+        .faq-question.open .faq-chevron { transform:rotate(180deg); }
+        .faq-answer {
+            max-height:0; overflow:hidden; transition:max-height 0.3s ease;
+            padding:0 24px; font-size:14px; color:#4b5563; line-height:1.75;
+        }
+        .faq-answer.open { max-height:400px; padding:0 24px 18px; }
+
+        /* ══ 數據展示 ══ */
+        .stats-row {
+            display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:24px;
+            margin:40px 0;
+        }
+        .stat-card {
+            background:#fff; border-radius:16px; padding:28px 20px; text-align:center;
+            border:1px solid var(--border-color); box-shadow:var(--shadow);
+        }
+        .stat-number {
+            font-size:48px; font-weight:900; color:var(--primary-color);
+            line-height:1; margin-bottom:8px;
+        }
+        .stat-label { font-size:14px; color:#6b7280; font-weight:500; }
+
+        /* ══ Email 訂閱 ══ */
+        .subscribe-box {
+            background:linear-gradient(135deg,#f0fdf4,#eff6ff);
+            border-radius:20px; padding:48px 40px; text-align:center;
+            border:1px solid #bfdbfe;
+        }
+        .subscribe-box h3 { font-size:22px; font-weight:700; color:var(--text-color); margin-bottom:10px; }
+        .subscribe-box p  { color:#6b7280; margin-bottom:24px; }
+        .subscribe-form { display:flex; gap:12px; max-width:480px; margin:0 auto; }
+        .subscribe-input {
+            flex:1; padding:12px 18px; border-radius:50px;
+            border:1px solid #bfdbfe; font-size:14px; outline:none;
+        }
+        .subscribe-input:focus { border-color:var(--primary-color); }
+        .subscribe-btn {
+            padding:12px 24px; border-radius:50px; background:var(--primary-color);
+            color:#fff; border:none; font-weight:600; cursor:pointer; font-size:14px;
+            white-space:nowrap; transition:background 0.2s;
+        }
+        .subscribe-btn:hover { background:var(--primary-dark); }
+        @media(max-width:560px){ .subscribe-form{flex-direction:column; align-items:stretch;} }
+        @media(max-width:768px){ .subscribe-qr-grid{ grid-template-columns:1fr !important; } }
+
+        /* ══ QR Code ══ */
+        .qr-box {
+            display:flex; align-items:center; gap:32px; background:#fff;
+            border-radius:20px; padding:32px; border:1px solid var(--border-color);
+            box-shadow:var(--shadow); max-width:480px; margin:0 auto;
+        }
+        .qr-box img { width:120px; height:120px; border-radius:12px; flex-shrink:0; }
+        .qr-box-text h4 { font-size:17px; font-weight:700; margin-bottom:8px; }
+        .qr-box-text p  { font-size:13px; color:#6b7280; }
+        @media(max-width:480px){ .qr-box{flex-direction:column; text-align:center;} }
+
+        /* ══ Cookie Banner ══ */
+        #cookie-banner {
+            position:fixed; bottom:0; left:0; right:0; z-index:9999;
+            background:#1e293b; color:#e2e8f0; padding:16px 24px;
+            display:flex; align-items:center; gap:20px; flex-wrap:wrap;
+            box-shadow:0 -4px 24px rgba(0,0,0,0.2);
+            transform:translateY(100%); transition:transform 0.4s ease;
+        }
+        #cookie-banner.show { transform:translateY(0); }
+        #cookie-banner p { flex:1; font-size:13px; margin:0; line-height:1.6; }
+        #cookie-banner a { color:#60a5fa; }
+        .cookie-btn {
+            padding:8px 20px; border-radius:8px; font-size:13px; font-weight:600;
+            cursor:pointer; border:none; white-space:nowrap;
+        }
+        .cookie-accept { background:var(--primary-color); color:#fff; }
+        .cookie-decline{ background:transparent; color:#94a3b8; border:1px solid #334155!important; }
+        .cookie-decline:hover { background:#334155; }
+
+        /* ── Footer ── */
+        .site-footer {
+            background: #1e293b;
+            color: #94a3b8;
+            margin-top: 80px;
+            padding: 60px 0 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            padding-bottom: 48px;
+            border-bottom: 1px solid #334155;
+        }
+
+        @media (max-width: 900px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+        }
+        @media (max-width: 560px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+        }
+
+        .footer-brand h3 {
+            color: #f8fafc;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            line-height: 1.75;
+            color: #94a3b8;
+        }
+
+        .footer-col h4 {
+            color: #e2e8f0;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-col li {
+            font-size: 14px;
+            color: #94a3b8;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            line-height: 1.55;
+        }
+
+        .footer-col li i {
+            color: #60a5fa;
+            margin-top: 2px;
+            flex-shrink: 0;
+            width: 14px;
+        }
+
+        .footer-col a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover { color: #60a5fa; }
+
+        .footer-bottom {
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .footer-bottom-left { color: #64748b; }
+        .footer-bottom-right { color: #64748b; }
+
+        .footer-divider {
+            width: 40px;
+            height: 3px;
+            background: var(--primary-light);
+            border-radius: 2px;
+            margin: 12px 0 16px;
+        }
+
+        /* ── 浮動報名按鈕：大尺寸 + GIF + 文字 ── */
+        .floating-register {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .floating-btn {
+            width: auto;
+            min-width: 130px;
+            height: auto;
+            padding: 0;
+            border-radius: 50px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(245,158,11,0.45);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .floating-btn:hover {
+            transform: scale(1.06) translateY(-3px);
+            box-shadow: 0 12px 32px rgba(245,158,11,0.55);
+        }
+
+        /* GIF 圖示區 */
+        .floating-btn-gif {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            display: block;
+            border-radius: 50px 50px 0 0;
+        }
+
+        /* 無 GIF 時的預設圖示 */
+        .floating-btn-icon {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            background: var(--accent-color);
+        }
+
+        /* 文字標籤 */
+        .floating-btn-label {
+            background: var(--accent-color);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 8px 20px;
+            width: 100%;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* 脈衝動畫 */
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(245,158,11,0.5); }
+            70% { box-shadow: 0 0 0 16px rgba(245,158,11,0); }
+            100% { box-shadow: 0 0 0 0 rgba(245,158,11,0); }
+        }
+
+        .floating-btn.pulse {
+            animation: pulse-ring 2s ease-out infinite;
+        }
+
+        @media (max-width: 768px) {
+            .floating-register { bottom: 20px; right: 16px; }
+            .floating-btn { min-width: 110px; }
+            .floating-btn-gif,
+            .floating-btn-icon { width: 64px; height: 64px; font-size: 26px; }
+            .floating-btn-label { font-size: 12px; padding: 6px 14px; }
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-color);
+            border-radius: var(--border-radius-lg);
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        .modal-body {
+            margin-bottom: 30px;
+        }
+
+        .privacy-content {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 20px;
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .privacy-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .privacy-checkbox input {
+            margin-top: 4px;
+        }
+
+        .privacy-checkbox label {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #475569;
+        }
+
+        /* 講師詳細資訊 Modal */
+        .speaker-modal .modal-content {
+            max-width: 800px;
+        }
+
+        .speaker-detail {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .speaker-detail-image {
+            width: 200px;
+            height: 200px;
+            background: var(--bg-gray);
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: var(--text-light);
+        }
+
+        .speaker-detail-content h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .speaker-detail-content .speaker-title,
+        .speaker-detail-content .speaker-org {
+            margin-bottom: 20px;
+        }
+
+        .speaker-detail-content h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 20px 0 10px 0;
+            color: var(--text-color);
+        }
+
+        .speaker-detail-content p {
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+
+        /* 狀態頁面 */
+        .status-page {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .status-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+            opacity: 0.5;
+        }
+
+        .status-title {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-color);
+        }
+
+        .status-message {
+            font-size: 18px;
+            color: var(--text-light);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .hero {
+                padding: 100px 20px 60px;
+            }
+
+            .hero-title {
+                font-size: clamp(16px, 5vw, 32px);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .hero-subtitle {
+                font-size: 18px;
+            }
+
+            .hero-meta {
+                gap: 20px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+
+            .section-title h2 {
+                font-size: 28px;
+            }
+
+            .about-grid,
+            .speakers-grid,
+            .traffic-grid,
+            .past-events-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .agenda-item {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .agenda-time {
+                min-width: auto;
+            }
+
+            .floating-register {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .floating-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+
+            .modal-content {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+
+            .speaker-detail {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .speaker-detail-image {
+                width: 150px;
+                height: 150px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-meta {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .countdown-timer {
+                gap: 15px;
+            }
+
+            .countdown-item {
+                min-width: 60px;
+            }
+
+            .countdown-number {
+                font-size: 28px;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* 隱藏類別 */
+        .hidden {
+            display: none !important;
+        }
+
+        /* 載入狀態 */
+        .loading-section {
+            text-align: center;
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 導航欄 -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="#" class="navbar-brand" id="site-title">會議活動</a>
+            <div class="mobile-menu-toggle" id="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="navbar-menu" id="navbar-menu">
+                <a href="#news" class="navbar-link" data-section="news" data-zh="最新消息" data-en="News">最新消息</a>
+                <a href="#about" class="navbar-link" data-section="about" data-zh="會議介紹" data-en="About">會議介紹</a>
+                <a href="#speakers" class="navbar-link" data-section="speakers" data-zh="講師介紹" data-en="Speakers">講師介紹</a>
+                <a href="#agenda" class="navbar-link" data-section="agenda" data-zh="會議議程" data-en="Agenda">會議議程</a>
+                <a href="#traffic" class="navbar-link" data-section="traffic" data-zh="交通資訊" data-en="Transportation">交通資訊</a>
+                <a href="#sponsors" class="navbar-link" data-section="sponsors" data-zh="贊助單位" data-en="Sponsors">贊助單位</a>
+                <a href="#downloads" class="navbar-link" data-section="downloads" data-zh="下載專區" data-en="Downloads">下載專區</a>
+                <a href="#faq" class="navbar-link" data-section="faq" data-zh="常見問題" data-en="FAQ">常見問題</a>
+                <a href="#" class="navbar-link" id="past-events-nav-link" data-zh="歷年會議" data-en="Past Events" onclick="openPastEventsAlbum(event)">歷年會議</a>
+                <div class="language-switch">
+                    <button class="lang-btn active" data-lang="zh">中文</button>
+                    <button class="lang-btn" data-lang="en">English</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要內容 -->
+    <main id="main-content">
+        <!-- 載入中狀態 -->
+        <div id="loading-state" class="loading">
+            <div class="loading-spinner"></div>
+            <p>載入中...</p>
+        </div>
+
+        <!-- 連線錯誤狀態 -->
+        <div id="error-state" class="hidden" style="text-align:center;padding:80px 20px;max-width:600px;margin:0 auto;">
+            <div style="font-size:56px;margin-bottom:20px;">⚠️</div>
+            <h2 style="font-size:22px;font-weight:700;color:#1f2937;margin-bottom:12px;">無法連線至伺服器</h2>
+            <p id="error-message" style="color:#6b7280;margin-bottom:24px;line-height:1.7;"></p>
+
+            <div style="background:#fef3c7;border-radius:12px;padding:20px;margin-bottom:24px;text-align:left;font-size:13px;color:#92400e;line-height:2;">
+                <strong>🔧 最常見原因與解法：</strong><br>
+                1. GAS 沒有重新部署 → 進 GAS 編輯器 → 部署 → 管理部署項目 → <strong>新版本</strong><br>
+                2. 存取對象設錯 → 確認設為 <strong>「任何人（包括匿名使用者）」</strong><br>
+                3. 執行身分設錯 → 確認設為 <strong>「我」</strong>
+            </div>
+
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;">
+                <button onclick="location.reload()" style="background:#1e40af;color:#fff;border:none;border-radius:10px;padding:12px 28px;font-size:14px;font-weight:600;cursor:pointer;">
+                    🔄 重新載入
+                </button>
+                <button onclick="testApiUrl()" style="background:#059669;color:#fff;border:none;border-radius:10px;padding:12px 28px;font-size:14px;font-weight:600;cursor:pointer;">
+                    🧪 測試 API 連線
+                </button>
+            </div>
+
+            <div style="background:#f1f5f9;border-radius:10px;padding:14px 18px;font-size:12px;color:#64748b;text-align:left;">
+                <strong>目前 API URL：</strong><br>
+                <span id="error-api-url" style="font-family:monospace;word-break:break-all;color:#1e40af;"></span>
+            </div>
+        </div>
+
+        <!-- 建置中狀態 -->
+        <div id="draft-state" class="status-page hidden">
+            <div>
+                <div class="status-icon">🔧</div>
+                <h1 class="status-title" id="draft-title">網站建置中</h1>
+                <p class="status-message" id="draft-message">網站正在建置中，請稍後再訪。</p>
+            </div>
+        </div>
+
+        <!-- 活動結束狀態 -->
+        <div id="closed-state" class="status-page hidden">
+            <div>
+                <div class="status-icon">🎉</div>
+                <h1 class="status-title" id="closed-title">活動已圓滿結束</h1>
+                <p class="status-message" id="closed-message">感謝您的參與，歡迎關注我們下次的活動。</p>
+            </div>
+        </div>
+
+        <!-- Hero 區塊 -->
+        <section id="hero-section" class="hero hidden">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-image" id="hero-image">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h1 class="hero-title" id="hero-title">會議名稱</h1>
+                    <p class="hero-subtitle" id="hero-subtitle">會議副標題</p>
+                    <div class="hero-meta">
+                        <div class="hero-meta-item">
+                            <div class="hero-meta-label">日期</div>
+                            <div class="hero-meta-value" id="hero-date">-</div>
+                        </div>
+                        <div class="hero-meta-item">
+                            <div class="hero-meta-label">地點</div>
+                            <div class="hero-meta-value" id="hero-location">-</div>
+                        </div>
+                    </div>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" id="register-btn">
+                            <i class="fas fa-edit"></i>
+                            <span id="register-btn-text">立即報名</span>
+                        </button>
+                        <a href="#agenda" class="btn btn-outline">
+                            <i class="fas fa-calendar"></i>
+                            查看議程
+                        </a>
+                    </div>
+                    <div class="countdown" id="countdown-section">
+                        <div class="countdown-title" id="countdown-title">距離報名截止還有</div>
+                        <div class="countdown-timer" id="countdown-timer">
+                            <div class="countdown-item">
+                                <span class="countdown-number" id="days">00</span>
+                                <span class="countdown-label">天</span>
+                            </div>
+                            <div class="countdown-item">
+                                <span class="countdown-number" id="hours">00</span>
+                                <span class="countdown-label">時</span>
+                            </div>
+                            <div class="countdown-item">
+                                <span class="countdown-number" id="minutes">00</span>
+                                <span class="countdown-label">分</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 最新消息 -->
+        <section id="news-section" class="section hidden">
+            <div class="container">
+                <div class="section-title">
+                    <h2 id="news-title">最新消息</h2>
+                    <p id="news-subtitle">會議相關最新公告與資訊</p>
+                </div>
+                <div id="news-content" class="news-list">
+                    <!-- 動態載入 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 會議介紹 -->
+        <section id="about-section" class="section hidden">
+            <div class="container">
+                <div class="section-title">
+                    <h2 id="about-title">會議介紹</h2>
+                    <p id="about-subtitle">了解本次會議的詳細內容</p>
+                </div>
+                <div id="about-content" class="about-grid">
+                    <!-- 動態載入內容 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 講師介紹 -->
+        <section id="speakers-section" class="section hidden">
+            <div class="container">
+                <div class="section-title">
+                    <h2 id="speakers-title">講師介紹</h2>
+                    <p id="speakers-subtitle">來自各領域的專業講師</p>
+                </div>
+                <div id="speakers-content" class="speakers-grid">
+                    <!-- 動態載入內容 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 會議議程 -->
+        <section id="agenda-section" class="section hidden">
+            <div class="container">
+                <div class="section-title">
+                    <h2 id="agenda-title">會議議程</h2>
+                    <p id="agenda-subtitle">完整的會議時程安排</p>
+                </div>
+                <div id="agenda-content" class="agenda-container">
+                    <!-- 動態載入內容 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 交通資訊 -->
+        <section id="traffic-section" class="section hidden">
+            <div class="container">
+                <div class="section-title">
+                    <h2 id="traffic-title">交通資訊</h2>
+                    <p id="traffic-subtitle">如何前往會場</p>
+                </div>
+                <div id="traffic-content">
+                    <!-- 動態載入：左側 Google Maps iframe + 右側資訊卡片 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 歷年會議：改為選單直接連結，不顯示 section -->
+        <div id="past-events-section" class="hidden"></div>
+    </main>
+
+    <!-- ── Footer ── -->
+    <footer class="site-footer" id="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+
+                <!-- 主辦單位 -->
+                <div class="footer-brand">
+                    <h3 id="footer-conf-title">會議名稱</h3>
+                    <div class="footer-divider"></div>
+                    <p id="footer-conf-subtitle">會議副標題</p>
+                    <p style="margin-top:12px;" id="footer-conf-date-loc"></p>
+                </div>
+
+                <!-- 主辦 / 協辦單位 -->
+                <div class="footer-col">
+                    <h4 data-zh="主辦單位" data-en="Organizer">主辦單位</h4>
+                    <ul id="footer-organizer-list">
+                        <li><i class="fas fa-building"></i><span id="footer-organizer">-</span></li>
+                    </ul>
+                    <h4 style="margin-top:20px;" data-zh="協辦單位" data-en="Co-Organizer">協辦單位</h4>
+                    <ul id="footer-co-organizer-list">
+                        <li><i class="fas fa-handshake"></i><span id="footer-co-organizer">-</span></li>
+                    </ul>
+                </div>
+
+                <!-- 聯絡資訊 -->
+                <div class="footer-col">
+                    <h4 data-zh="聯絡我們" data-en="Contact Us">聯絡我們</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i><a id="footer-email" href="#">-</a></li>
+                        <li><i class="fas fa-phone"></i><span id="footer-phone">-</span></li>
+                        <li><i class="fas fa-map-marker-alt"></i><span id="footer-address">-</span></li>
+                    </ul>
+                </div>
+
+                <!-- 快速連結 -->
+                <div class="footer-col">
+                    <h4 data-zh="快速連結" data-en="Quick Links">快速連結</h4>
+                    <ul>
+                        <li><i class="fas fa-newspaper"></i><a href="#news" data-zh="最新消息" data-en="News">最新消息</a></li>
+                        <li><i class="fas fa-info-circle"></i><a href="#about" data-zh="會議介紹" data-en="About">會議介紹</a></li>
+                        <li><i class="fas fa-users"></i><a href="#speakers" data-zh="講師介紹" data-en="Speakers">講師介紹</a></li>
+                        <li><i class="fas fa-calendar"></i><a href="#agenda" data-zh="會議議程" data-en="Agenda">會議議程</a></li>
+                        <li><i class="fas fa-map"></i><a href="#traffic" data-zh="交通資訊" data-en="Transportation">交通資訊</a></li>
+                        <li><i class="fas fa-images"></i><a href="#" onclick="openPastEventsAlbum(event)" data-zh="歷年會議" data-en="Past Events">歷年會議</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer 底部 -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <span id="footer-copyright">© 2025</span>
+                    <span id="footer-organizer-short"></span>
+                    <span data-zh="版權所有" data-en="All Rights Reserved"> · All Rights Reserved</span>
+                </div>
+                <div class="footer-bottom-right" style="display:flex;align-items:center;gap:16px;">
+                    <div id="footer-social-links" style="display:flex;gap:12px;"></div>
+                    <div id="footer-powered">Powered by imPR</div>
+                </div>
+                    Powered by imPR
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 浮動報名按鈕：GIF + 立即報名文字 -->
+    <div class="floating-register hidden" id="floating-register">
+        <button class="floating-btn pulse" id="floating-register-btn">
+            <div class="floating-btn-icon" id="floating-btn-icon">
+                <i class="fas fa-pen-alt"></i>
+            </div>
+            <div class="floating-btn-label" id="floating-btn-label">立即報名</div>
+        </button>
+    </div>
+
+    <!-- Modal -->
+        <!-- ══ 數據展示 ══ -->
+        <section id="stats-section" class="section hidden">
+            <div class="container"><div id="stats-row" class="stats-row"></div></div>
+        </section>
+
+        <!-- ══ 贊助商 ══ -->
+        <section id="sponsors-section" class="section hidden">
+            <div class="container">
+                <div class="section-title">
+                    <h2 id="sponsors-title">贊助單位</h2>
+                    <p id="sponsors-subtitle">感謝各單位的支持與贊助</p>
+                </div>
+                <div id="sponsors-content" class="sponsors-section"></div>
+            </div>
+        </section>
+
+        <!-- ══ 下載專區 ══ -->
+        <section id="downloads-section" class="section hidden">
+            <div class="container">
+                <div class="section-title">
+                    <h2 id="downloads-title">下載專區</h2>
+                    <p id="downloads-subtitle">會議相關文件下載</p>
+                </div>
+                <div id="downloads-content" class="downloads-grid"></div>
+            </div>
+        </section>
+
+        <!-- ══ 直播連結 ══ -->
+        <section id="livestream-section" class="section hidden">
+            <div class="container">
+                <div class="section-title">
+                    <h2 id="livestream-title">線上直播</h2>
+                    <p id="livestream-subtitle">無法親臨現場？線上同步收看</p>
+                </div>
+                <div id="livestream-content"></div>
+            </div>
+        </section>
+
+        <!-- ══ FAQ ══ -->
+        <section id="faq-section" class="section hidden">
+            <div class="container">
+                <div class="section-title">
+                    <h2 id="faq-title">常見問題</h2>
+                    <p id="faq-subtitle">有任何疑問歡迎參閱</p>
+                </div>
+                <div id="faq-content" class="faq-list"></div>
+            </div>
+        </section>
+
+        <!-- ══ Email 訂閱 + QR Code ══ -->
+        <section id="subscribe-section" class="section hidden">
+            <div class="container">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;--subscribe-cols:1fr 1fr;" class="subscribe-qr-grid">
+                    <div class="subscribe-box">
+                        <i class="fas fa-bell" style="font-size:32px;color:var(--primary-color);margin-bottom:12px;display:block;"></i>
+                        <h3 id="subscribe-title">訂閱最新消息</h3>
+                        <p id="subscribe-desc">輸入 Email，第一時間收到會議最新公告</p>
+                        <div class="subscribe-form">
+                            <input type="email" class="subscribe-input" id="subscribe-email" placeholder="your@email.com">
+                            <button class="subscribe-btn" id="subscribe-btn">訂閱</button>
+                        </div>
+                        <p id="subscribe-result" style="margin-top:12px;font-size:13px;color:var(--primary-color);min-height:18px;"></p>
+                    </div>
+                    <div style="padding:32px 0;">
+                        <div class="section-title" style="text-align:left;margin-bottom:24px;">
+                            <h2 id="qr-title" style="font-size:22px;">掃碼報名</h2>
+                            <p id="qr-subtitle">使用手機掃描 QR Code 快速進入報名頁</p>
+                        </div>
+                        <div class="qr-box" id="qr-box">
+                            <div id="qr-image-wrap">
+                                <div style="width:120px;height:120px;background:#f1f5f9;border-radius:12px;display:flex;align-items:center;justify-content:center;">
+                                    <i class="fas fa-qrcode" style="font-size:48px;color:#cbd5e1;"></i>
+                                </div>
+                            </div>
+                            <div class="qr-box-text">
+                                <h4 id="qr-label">立即報名</h4>
+                                <p id="qr-desc">掃描左方 QR Code<br>或點擊下方按鈕</p>
+                                <button class="speaker-detail-btn" style="margin-top:12px;" onclick="showPrivacyModal()">
+                                    <i class="fas fa-pen-alt"></i> <span id="qr-reg-text">前往報名</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <div class="modal" id="privacy-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="privacy-modal-close">&times;</button>
+            <h2 class="modal-title" id="privacy-title">個資蒐集告知事項</h2>
+            <div class="modal-body">
+                <div class="privacy-content" id="privacy-content">
+                    <!-- 動態載入內容 -->
+                </div>
+                <div class="privacy-checkbox">
+                    <input type="checkbox" id="privacy-checkbox">
+                    <label for="privacy-checkbox" id="privacy-checkbox-text">
+                        我已閱讀並同意個資蒐集、處理及利用告知事項
+                    </label>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="privacy-cancel">取消</button>
+                <button class="btn btn-primary" id="privacy-confirm" disabled>前往報名表單</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 講師詳細資訊 Modal -->
+    <div class="modal speaker-modal" id="speaker-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="speaker-modal-close">&times;</button>
+            <div id="speaker-detail-content">
+                <!-- 動態載入內容 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cookie Banner -->
+    <div id="cookie-banner">
+        <p id="cookie-text">本網站使用 Cookie 以提升使用體驗。繼續瀏覽即表示您同意我們的 <a href="#" onclick="showPrivacyModal();return false;">隱私權政策</a>。</p>
+        <button class="cookie-btn cookie-accept" id="cookie-accept">接受</button>
+        <button class="cookie-btn cookie-decline" id="cookie-decline">拒絕</button>
+    </div>
+
+    <script>
+        // 全域變數
+        let currentLang = localStorage.getItem('conference-lang') || 'zh';
+        let siteData = {};
+        let countdownInterval;
+
+        // ── API URL 管理：優先讀 localStorage（後台設定），再用預設值 ──
+        // 若後台「系統設定」更新了 API URL，前台自動使用新 URL
+        const API_DEFAULT_URL = 'https://script.google.com/macros/s/AKfycbw2wh9Ud91cJWvMxrm0A8je0EdGU4HY7K6mfQVDxXirYzjdJjfjnsHZY7s4fsCVldo/exec';
+
+        // 啟動時驗證 localStorage URL，若與預設值不同先清除（避免舊 URL 卡住）
+        function getApiUrl() {
+            const stored = localStorage.getItem('GAS_API_URL');
+            // 如果 localStorage 有值但跟 hardcode 不同，以 hardcode 為準
+            // 使用者可透過後台「系統設定」更新
+            return stored || API_DEFAULT_URL;
+        }
+
+        // 強制使用 hardcode URL（清除可能錯誤的 localStorage）
+        localStorage.setItem('GAS_API_URL', API_DEFAULT_URL);
+        let activeApiBaseUrl = API_DEFAULT_URL;
+
+        async function apiFetch(action, init = {}) {
+            const url = `${activeApiBaseUrl}?action=${action}`;
+            const response = await fetch(url, init);
+            if (!response.ok) {
+                throw new Error(`API ${action} 失敗: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            if (data && data.success !== undefined) return data;
+            throw new Error(data && data.error ? data.error : `API ${action} 回傳格式錯誤`);
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initLanguage();
+            initSubscribe();
+            initCookieBanner();
+            initMobileMenu();
+            loadSiteData();
+        });
+
+        // 載入網站資料
+        async function loadSiteData() {
+            showLoading(true);
+
+            // GAS 冷啟動可能需要幾秒，自動重試最多 3 次
+            const MAX_RETRY = 3;
+            let lastError = null;
+
+            for (let attempt = 1; attempt <= MAX_RETRY; attempt++) {
+                try {
+                    // 每次重試等待時間遞增
+                    if (attempt > 1) {
+                        const wait = attempt * 2000;
+                        showLoadingMsg(`連線中... 第 ${attempt} 次嘗試（等待 ${wait/1000} 秒）`);
+                        await new Promise(r => setTimeout(r, wait));
+                    }
+
+                    const settingsData = await Promise.race([
+                        apiFetch('getSettings'),
+                        new Promise((_, reject) =>
+                            setTimeout(() => reject(new Error('連線逾時')), 12000)
+                        )
+                    ]);
+
+                    if (!settingsData || !settingsData.success) {
+                        throw new Error('API 回傳異常：' + JSON.stringify(settingsData));
+                    }
+
+                    // 成功
+                    siteData.settings = settingsData.data;
+                    checkSiteStatus();
+                    if (siteData.settings.site_status === 'live') {
+                        await loadAllData();
+                    }
+                    showLoading(false);
+                    return; // 成功就結束
+
+                } catch (error) {
+                    lastError = error;
+                    console.warn(`第 ${attempt} 次連線失敗:`, error.message);
+                }
+            }
+
+            // 三次都失敗
+            showLoading(false);
+            showError(`連線失敗（已重試 ${MAX_RETRY} 次）：${lastError ? lastError.message : '未知錯誤'}。請確認 GAS 已重新部署（新版本），且存取對象設為「任何人」。`);
+        }
+
+        // 測試 API 連線按鈕
+        async function testApiUrl() {
+            const url = (typeof activeApiBaseUrl !== 'undefined' ? activeApiBaseUrl : API_DEFAULT_URL)
+                + '?action=getSettings';
+            try {
+                const res = await fetch(url, { method: 'GET', redirect: 'follow' });
+                const data = await res.json();
+                if (data && data.success) {
+                    alert('✅ API 連線成功！site_status = ' + (data.data && data.data.site_status));
+                    location.reload();
+                } else {
+                    alert('❌ API 回傳錯誤：' + JSON.stringify(data));
+                }
+            } catch (e) {
+                alert('❌ 連線失敗：' + e.message + '\n\n請在新分頁直接開啟：\n' + url);
+            }
+        }
+
+        function showLoadingMsg(msg) {
+            const el = document.querySelector('#loading-state p');
+            if (el) el.textContent = msg;
+        }
+
+        // 檢查網站狀態
+        function checkSiteStatus() {
+            const status = siteData.settings.site_status;
+
+            if (status === 'draft') {
+                showDraftPage();
+            } else if (status === 'closed') {
+                showClosedPage();
+            } else if (status === 'live') {
+                showLiveContent();
+            }
+        }
+
+        // 顯示建置中頁面
+        function showDraftPage() {
+            document.getElementById('loading-state').classList.add('hidden');
+            document.getElementById('draft-state').classList.remove('hidden');
+
+            const titleEl = document.getElementById('draft-title');
+            const messageEl = document.getElementById('draft-message');
+
+            titleEl.textContent = currentLang === 'zh' ?
+                siteData.settings.maintenance_message_zh || '網站建置中' :
+                siteData.settings.maintenance_message_en || 'Website under construction';
+
+            messageEl.textContent = currentLang === 'zh' ?
+                siteData.settings.maintenance_message_zh || '網站正在建置中，請稍後再訪。' :
+                siteData.settings.maintenance_message_en || 'Website under construction, please visit later.';
+        }
+
+        // 顯示活動結束頁面
+        function showClosedPage() {
+            document.getElementById('loading-state').classList.add('hidden');
+            document.getElementById('closed-state').classList.remove('hidden');
+
+            const titleEl = document.getElementById('closed-title');
+            const messageEl = document.getElementById('closed-message');
+
+            titleEl.textContent = currentLang === 'zh' ?
+                siteData.settings.closed_message_zh || '活動已圓滿結束' :
+                siteData.settings.closed_message_en || 'Event has ended successfully';
+
+            messageEl.textContent = currentLang === 'zh' ?
+                siteData.settings.closed_message_zh || '感謝您的參與，歡迎關注我們下次的活動。' :
+                siteData.settings.closed_message_en || 'Thank you for your participation, welcome to follow our next event.';
+        }
+
+        // 顯示正常內容
+        function showLiveContent() {
+            document.getElementById('loading-state').classList.add('hidden');
+            // 固定顯示的 sections
+            ['hero-section','news-section','about-section','speakers-section',
+             'agenda-section','traffic-section','subscribe-section'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.remove('hidden');
+            });
+            // 動態 section：有資料才顯示，由各 render 函數控制
+            // floating visibility now controlled by updateRegisterButton()
+
+            // 更新社群媒體連結
+            updateSocialLinks();
+        }
+
+        // 社群媒體連結
+        function updateSocialLinks() {
+            const s = siteData.settings || {};
+            const wrap = document.getElementById('footer-social-links');
+            if (!wrap) return;
+            const platforms = [
+                { key:'social_facebook', icon:'fab fa-facebook-f', color:'#1877f2' },
+                { key:'social_linkedin', icon:'fab fa-linkedin-in', color:'#0a66c2' },
+                { key:'social_twitter',  icon:'fab fa-x-twitter',  color:'#000' },
+                { key:'social_youtube',  icon:'fab fa-youtube',    color:'#ff0000' },
+                { key:'social_line',     icon:'fab fa-line',       color:'#00c300' },
+            ];
+            wrap.innerHTML = platforms.filter(p=>s[p.key]).map(p=>
+                `<a href="${s[p.key]}" target="_blank" rel="noopener"
+                    style="width:32px;height:32px;border-radius:50%;background:${p.color};
+                           display:flex;align-items:center;justify-content:center;
+                           color:#fff;font-size:13px;text-decoration:none;
+                           transition:opacity 0.2s;" onmouseover="this.style.opacity=.7" onmouseout="this.style.opacity=1">
+                    <i class="${p.icon}"></i>
+                </a>`
+            ).join('');
+        }
+
+        // 載入所有資料
+        async function loadAllData() {
+            const promises = [
+                loadNews(),
+                loadAbout(),
+                loadSponsors(),
+                loadDownloads(),
+                loadFaq(),
+                loadSpeakers(),
+                loadAgenda(),
+                loadTraffic(),
+                loadPrivacy(),
+                loadPastEvents()
+            ];
+
+            await Promise.all(promises);
+
+            // 資料全部載入後，套用當前語言重新 render 全部內容
+            // 這樣不論語言是中文還是英文，都保證顯示正確版本
+            updateContent();
+            initRegisterButtons();
+        }
+
+        // 更新 Hero 區塊
+        function updateHero() {
+            const settings = siteData.settings;
+
+            document.getElementById('site-title').textContent = currentLang === 'zh' ?
+                settings.conference_title_zh || '會議活動' :
+                settings.conference_title_en || 'Conference';
+
+            document.getElementById('hero-title').textContent = currentLang === 'zh' ?
+                settings.conference_title_zh || '會議名稱' :
+                settings.conference_title_en || 'Conference Title';
+
+            document.getElementById('hero-subtitle').textContent = currentLang === 'zh' ?
+                settings.conference_subtitle_zh || '會議副標題' :
+                settings.conference_subtitle_en || 'Conference Subtitle';
+
+            document.getElementById('hero-date').textContent = settings.conference_date || '-';
+            document.getElementById('hero-location').textContent = currentLang === 'zh' ?
+                settings.conference_location_zh || '-' :
+                settings.conference_location_en || '-';
+
+            // 更新報名按鈕狀態
+            updateRegisterButton();
+            // 同步更新 Footer
+            updateFooter();
+        }
+
+        // 更新 Footer 資訊（從 settings 讀取）
+        function updateFooter() {
+            const s = siteData.settings || {};
+            const lang = currentLang;
+            const isEn = lang !== 'zh';
+
+            // 會議標題 & 副標題
+            const title = isEn ? (s.conference_title_en || s.conference_title_zh || '') : (s.conference_title_zh || '');
+            const subtitle = isEn ? (s.conference_subtitle_en || s.conference_subtitle_zh || '') : (s.conference_subtitle_zh || '');
+            const loc = isEn ? (s.conference_location_en || s.conference_location_zh || '') : (s.conference_location_zh || '');
+
+            const titleEl = document.getElementById('footer-conf-title');
+            const subEl = document.getElementById('footer-conf-subtitle');
+            const dateLoc = document.getElementById('footer-conf-date-loc');
+            if (titleEl) titleEl.textContent = title || (isEn ? 'Conference' : '會議名稱');
+            if (subEl) subEl.textContent = subtitle || '';
+            if (dateLoc) dateLoc.textContent = [s.conference_date, loc].filter(Boolean).join('  ·  ');
+
+            // 主辦 / 協辦
+            const setSpan = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val || '-'; };
+            setSpan('footer-organizer', isEn ? (s.organizer_en || s.organizer_zh || '-') : (s.organizer_zh || '-'));
+            setSpan('footer-co-organizer', isEn ? (s.co_organizer_en || s.co_organizer_zh || '-') : (s.co_organizer_zh || '-'));
+
+            // 聯絡資訊
+            setSpan('footer-phone', s.contact_phone || '-');
+            setSpan('footer-address', isEn ? (s.contact_address_en || s.contact_address_zh || '-') : (s.contact_address_zh || '-'));
+            const emailEl = document.getElementById('footer-email');
+            if (emailEl) {
+                emailEl.textContent = s.contact_email || '-';
+                emailEl.href = s.contact_email ? `mailto:${s.contact_email}` : '#';
+            }
+
+            // 版權
+            const copyrightEl = document.getElementById('footer-copyright');
+            if (copyrightEl) copyrightEl.textContent = `© ${new Date().getFullYear()}`;
+            const orgShort = document.getElementById('footer-organizer-short');
+            if (orgShort) orgShort.textContent = s.organizer_zh ? ` ${s.organizer_zh}` : '';
+
+            // Footer 快速連結 & 標題多語
+            document.querySelectorAll('.footer-col [data-zh]').forEach(el => {
+                el.textContent = isEn ? (el.dataset.en || el.dataset.zh) : el.dataset.zh;
+            });
+            document.querySelectorAll('.footer-col ul a[data-zh]').forEach(el => {
+                el.textContent = isEn ? (el.dataset.en || el.dataset.zh) : el.dataset.zh;
+            });
+
+            // powered by
+            const poweredEl = document.getElementById('footer-powered');
+            if (poweredEl) poweredEl.textContent = 'Powered by imPR';
+        }
+
+        // 更新報名按鈕狀態
+        function updateRegisterButton() {
+            const settings = siteData.settings || {};
+            const status = settings.registration_status;
+            const btn = document.getElementById('register-btn');
+            const btnText = document.getElementById('register-btn-text');
+            const floatingWrap = document.getElementById('floating-register');
+            const floatingLabel = document.getElementById('floating-btn-label');
+            const floatingIcon = document.getElementById('floating-btn-icon');
+
+            // ── GIF 圖示：若後台有設定 floating_btn_gif_url 就顯示 GIF ──
+            const gifUrl = settings.floating_btn_gif_url || '';
+            if (gifUrl && floatingIcon) {
+                floatingIcon.innerHTML = `<img src="${gifUrl}" class="floating-btn-gif" alt="報名">`;
+            }
+
+            // ── 時間判斷：若報名截止時間已過，強制隱藏 ──
+            const now = new Date();
+            const regEnd = settings.registration_end_at ? new Date(settings.registration_end_at) : null;
+            const isExpired = regEnd && now > regEnd;
+
+            // ── 更新文字 ──
+            const lang = currentLang;
+            if (floatingLabel) {
+                floatingLabel.textContent = lang === 'zh' ? '立即報名' : 'Register Now';
+            }
+
+            if (status === 'open' && !isExpired) {
+                // 報名開放中
+                btnText.textContent = lang === 'zh' ? '立即報名' : 'Register Now';
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                floatingWrap.classList.remove('hidden');
+            } else if (status === 'coming_soon') {
+                // 尚未開放：Hero 按鈕顯示但 disabled，浮動按鈕隱藏
+                btnText.textContent = lang === 'zh' ? '報名尚未開放' : 'Coming Soon';
+                btn.disabled = true;
+                btn.style.opacity = '0.7';
+                floatingWrap.classList.add('hidden');
+            } else {
+                // closed 或截止時間已過
+                btnText.textContent = lang === 'zh' ? '報名已截止' : 'Registration Closed';
+                btn.disabled = true;
+                btn.style.opacity = '0.6';
+                floatingWrap.classList.add('hidden');
+            }
+
+            // ── 若報名中，每分鐘重新檢查是否到期 ──
+            if (status === 'open' && regEnd && !isExpired) {
+                const msLeft = regEnd - now;
+                setTimeout(updateRegisterButton, Math.min(msLeft + 1000, 60000));
+            }
+        }
+
+        // 更新倒數計時
+        function updateCountdown() {
+            const settings = siteData.settings;
+            const now = new Date();
+            let targetDate;
+            let titleText;
+
+            const registrationEnd = settings.registration_end_at ? new Date(settings.registration_end_at) : null;
+            const eventStart = settings.event_start_at ? new Date(settings.event_start_at) : null;
+            const eventEnd = settings.event_end_at ? new Date(settings.event_end_at) : null;
+
+            if (now < (registrationEnd || new Date())) {
+                // 報名期間
+                targetDate = registrationEnd;
+                titleText = currentLang === 'zh' ? '距離報名截止還有' : 'Registration closes in';
+            } else if (now < (eventStart || new Date())) {
+                // 報名結束後到活動開始前
+                targetDate = eventStart;
+                titleText = currentLang === 'zh' ? '距離會議開始還有' : 'Event starts in';
+            } else if (now < (eventEnd || new Date())) {
+                // 活動進行中
+                document.getElementById('countdown-title').textContent = currentLang === 'zh' ? '會議進行中' : 'Event in progress';
+                document.getElementById('countdown-timer').innerHTML = '<div style="font-size: 24px; color: var(--success-color);">🎉</div>';
+                return;
+            } else {
+                // 活動結束
+                document.getElementById('countdown-title').textContent = currentLang === 'zh' ? '會議已圓滿結束' : 'Event has ended successfully';
+                document.getElementById('countdown-timer').innerHTML = '<div style="font-size: 24px; color: var(--success-color);">✅</div>';
+                return;
+            }
+
+            if (!targetDate) {
+                document.getElementById('countdown-section').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('countdown-title').textContent = titleText;
+
+            // 清除舊的計時器
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+
+            // 開始倒數
+            countdownInterval = setInterval(() => {
+                const now = new Date();
+                const diff = targetDate - now;
+
+                if (diff <= 0) {
+                    updateCountdown();
+                    return;
+                }
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            }, 1000);
+        }
+
+        // 載入最新消息
+        async function loadNews() {
+            try {
+                const data = await apiFetch('getNews');
+                if (data.success) {
+                    siteData.news = data.data;
+                    renderNews();
+                }
+            } catch (error) {
+                console.error('載入最新消息失敗:', error);
+            }
+        }
+
+        // 渲染最新消息
+        function renderNews() {
+            const container = document.getElementById('news-content');
+            if (!container) return;
+            const news = siteData.news || [];
+            const lang = currentLang;
+
+            if (news.length === 0) {
+                container.innerHTML = `<div class="loading-section">${lang === 'zh' ? '目前沒有最新消息' : 'No news available'}</div>`;
+                return;
+            }
+
+            const badgeMap = {
+                important: { zh: '重要公告', en: 'Important' },
+                event:     { zh: '活動資訊', en: 'Event' },
+                general:   { zh: '一般消息', en: 'General' }
+            };
+
+            container.innerHTML = news.map(item => {
+                const title   = lang === 'zh' ? item.title_zh   : item.title_en;
+                const body    = lang === 'zh' ? item.content_zh : item.content_en;
+                const type    = item.type || 'general';
+                const badge   = badgeMap[type] || badgeMap.general;
+                const dateStr = item.date || '';
+                let dayStr = '', monStr = '';
+                if (dateStr) {
+                    const d = new Date(dateStr);
+                    if (!isNaN(d)) {
+                        dayStr = d.getDate().toString().padStart(2, '0');
+                        monStr = d.toLocaleString(lang === 'zh' ? 'zh-TW' : 'en-US', { month: 'short' });
+                    }
+                }
+                const linkHtml = item.link_url
+                    ? `<a href="${item.link_url}" target="_blank" rel="noopener" class="news-link">
+                           <i class="fas fa-arrow-right"></i>
+                           ${lang === 'zh' ? '了解更多' : 'Read More'}
+                       </a>` : '';
+
+                return `<div class="news-card">
+                    ${dayStr ? `<div class="news-date-block">
+                        <div class="news-date-day">${dayStr}</div>
+                        <div class="news-date-mon">${monStr}</div>
+                    </div>` : ''}
+                    <div class="news-body">
+                        <span class="news-badge ${type}">${lang === 'zh' ? badge.zh : badge.en}</span>
+                        <div class="news-title">${title}</div>
+                        <div class="news-content">${body}</div>
+                        ${linkHtml}
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        // 載入會議介紹
+        async function loadAbout() {
+            try {
+                const data = await apiFetch('getAbout');
+            siteData.about = data.data;
+            renderAbout();
+            } catch (error) {
+                console.error('載入會議介紹失敗:', error);
+            }
+        }
+
+        // 渲染會議介紹
+        function renderAbout() {
+            const container = document.getElementById('about-content');
+            const about = siteData.about || [];
+            const lang = currentLang;
+
+            if (about.length === 0) {
+                container.innerHTML = `<div class="loading-section">${lang === 'zh' ? '目前沒有會議介紹內容' : 'No content available'}</div>`;
+                return;
+            }
+
+            container.innerHTML = about.map(item => `
+                <div class="about-card">
+                    <h3>${lang === 'zh' ? item.title_zh : item.title_en}</h3>
+                    <p>${lang === 'zh' ? item.content_zh : item.content_en}</p>
+                    ${item.image_url ? `<img src="${item.image_url}" alt="${lang === 'zh' ? item.title_zh : item.title_en}">` : ''}
+                </div>
+            `).join('');
+        }
+
+        // 載入講師資料
+        async function loadSpeakers() {
+            try {
+                const data = await apiFetch('getSpeakers');
+            siteData.speakers = data.data;
+            renderSpeakers();
+            } catch (error) {
+                console.error('載入講師資料失敗:', error);
+            }
+        }
+
+        // 渲染講師（第一層：圓形大頭照 + 簡介卡片）
+        function renderSpeakers() {
+            const container = document.getElementById('speakers-content');
+            const speakers = siteData.speakers || [];
+
+            if (speakers.length === 0) {
+                container.innerHTML = '<div class="loading-section">目前沒有講師資料</div>';
+                return;
+            }
+
+            const lang = currentLang;
+            container.innerHTML = speakers.map(sp => {
+                const name = lang === 'zh' ? sp.name_zh : sp.name_en;
+                const title = lang === 'zh' ? sp.title_zh : sp.title_en;
+                const org = lang === 'zh' ? sp.organization_zh : sp.organization_en;
+                const bio = lang === 'zh' ? sp.short_bio_zh : sp.short_bio_en;
+                const photoHtml = sp.photo_url
+                    ? `<img src="${sp.photo_url}" alt="${name}">`
+                    : '<i class="fas fa-user"></i>';
+                return `
+                <div class="speaker-card">
+                    <div class="speaker-avatar">${photoHtml}</div>
+                    <div class="speaker-content">
+                        <div class="speaker-name">${name}</div>
+                        <div class="speaker-title">${title}</div>
+                        <div class="speaker-org">${org}</div>
+                        <div class="speaker-bio">${bio}</div>
+                        <button class="speaker-detail-btn" onclick="showSpeakerDetail('${sp.id}')">
+                            <i class="fas fa-address-card"></i>
+                            ${lang === 'zh' ? '查看詳細' : 'View Profile'}
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        // 載入議程
+        async function loadAgenda() {
+            try {
+                const data = await apiFetch('getAgenda');
+            siteData.agenda = data.data;
+            renderAgenda();
+            } catch (error) {
+                console.error('載入議程失敗:', error);
+            }
+        }
+
+        // 渲染議程
+        function renderAgenda() {
+            const container = document.getElementById('agenda-content');
+            const agenda = siteData.agenda || [];
+            const lang = currentLang;
+
+            if (agenda.length === 0) {
+                container.innerHTML = '<div class="loading-section">目前沒有議程資料</div>';
+                return;
+            }
+
+            // 按日期和時間排序
+            agenda.sort((a, b) => {
+                const dateA = new Date(a.date + ' ' + a.start_time);
+                const dateB = new Date(b.date + ' ' + b.start_time);
+                return dateA - dateB;
+            });
+
+            container.innerHTML = agenda.map(item => `
+                <div class="agenda-item">
+                    <div class="agenda-time">
+                        ${item.start_time} - ${item.end_time}<br>
+                        <small>${formatDate(item.date)}</small>
+                    </div>
+                    <div class="agenda-content">
+                        <div class="agenda-title">${lang === 'zh' ? item.title_zh : item.title_en}</div>
+                        <div class="agenda-speaker">${lang === 'zh' ? item.speaker_zh : item.speaker_en}</div>
+                        <div class="agenda-location">${lang === 'zh' ? item.location_zh : item.location_en}</div>
+                        ${(lang === 'zh' ? item.notes_zh : item.notes_en) ? `<div class="agenda-notes">${lang === 'zh' ? item.notes_zh : item.notes_en}</div>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 載入交通資訊
+        async function loadTraffic() {
+            try {
+                const data = await apiFetch('getTraffic');
+            siteData.traffic = data.data;
+            renderTraffic();
+            } catch (error) {
+                console.error('載入交通資訊失敗:', error);
+            }
+        }
+
+        // 渲染交通資訊（Google Maps iframe 左側 + 資訊卡片右側）
+        function renderTraffic() {
+            const container = document.getElementById('traffic-content');
+            const traffic = siteData.traffic || [];
+            const lang = currentLang;
+            const mapsEmbed = siteData.settings && siteData.settings.google_maps_embed;
+
+            if (traffic.length === 0 && !mapsEmbed) {
+                container.innerHTML = '<div class="loading-section">目前沒有交通資訊</div>';
+                return;
+            }
+
+            // 圖示對應 type
+            const typeIcons = {
+                address: 'fas fa-map-marker-alt',
+                mrt: 'fas fa-train',
+                bus: 'fas fa-bus',
+                car: 'fas fa-car',
+                parking: 'fas fa-parking',
+                taxi: 'fas fa-taxi',
+                bike: 'fas fa-bicycle',
+                plane: 'fas fa-plane',
+                default: 'fas fa-info-circle'
+            };
+
+            const mapHtml = mapsEmbed
+                ? `<div class="traffic-map-container">
+                     <iframe src="${mapsEmbed}" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                   </div>`
+                : `<div class="traffic-map-container">
+                     <div class="traffic-map-placeholder">
+                       <i class="fas fa-map-marked-alt"></i>
+                       <p>${lang === 'zh' ? '地圖載入中，請至後台設定 Google Maps 嵌入碼' : 'Set Google Maps embed code in admin panel'}</p>
+                     </div>
+                   </div>`;
+
+            const cardsHtml = traffic.map(item => {
+                const iconClass = typeIcons[item.type] || typeIcons.default;
+                const title = lang === 'zh' ? item.title_zh : item.title_en;
+                const text = lang === 'zh' ? item.content_zh : item.content_en;
+                // 若 type 為 address，加上開啟 Google Maps 按鈕
+                const mapsBtn = (item.type === 'address' && mapsEmbed)
+                    ? `<a class="traffic-open-map-btn" href="https://maps.google.com/?q=${encodeURIComponent(text)}" target="_blank" rel="noopener">
+                         <i class="fas fa-external-link-alt"></i>
+                         ${lang === 'zh' ? '在 Google Maps 開啟' : 'Open in Google Maps'}
+                       </a>`
+                    : '';
+                return `<div class="traffic-card">
+                    <div class="traffic-icon"><i class="${iconClass}"></i></div>
+                    <div class="traffic-card-body">
+                        <h3>${title}</h3>
+                        <p>${text}</p>
+                        ${mapsBtn}
+                    </div>
+                </div>`;
+            }).join('');
+
+            container.innerHTML = `<div class="traffic-layout">${mapHtml}<div class="traffic-info-list">${cardsHtml}</div></div>`;
+        }
+
+        // 載入個資宣告
+        async function loadPrivacy() {
+            try {
+                const data = await apiFetch('getPrivacy');
+            siteData.privacy = data.data;
+            } catch (error) {
+                console.error('載入個資宣告失敗:', error);
+            }
+        }
+
+        // 載入歷年會議
+        async function loadPastEvents() {
+            try {
+                const data = await apiFetch('getPastEvents');
+            siteData.pastEvents = data.data;
+            renderPastEvents();
+            } catch (error) {
+                console.error('載入歷年會議失敗:', error);
+            }
+        }
+
+        // 渲染歷年會議（section 已移除，只保留資料供相簿選單使用）
+        function renderPastEvents() {
+            const container = document.getElementById('past-events-content');
+            if (!container) return; // section 已改為雲端連結，不需 render
+            const events = siteData.pastEvents || [];
+            const lang = currentLang;
+
+            if (events.length === 0) {
+                container.innerHTML = '<div class="loading-section">目前沒有歷年會議資料</div>';
+                return;
+            }
+
+            container.innerHTML = events.map(event => `
+                <div class="past-event-card">
+                    <div class="past-event-image">
+                        ${event.featured_image_url ? `<img src="${event.featured_image_url}" alt="${lang === 'zh' ? event.title_zh : event.title_en}" style="width: 100%; height: 100%; object-fit: cover;">` : '<i class="fas fa-images"></i>'}
+                    </div>
+                    <div class="past-event-content">
+                        <div class="past-event-year">${event.year}</div>
+                        <div class="past-event-title">${lang === 'zh' ? event.title_zh : event.title_en}</div>
+                        <div class="past-event-desc">${lang === 'zh' ? event.description_zh : event.description_en}</div>
+                        ${event.album_url ? `<a href="${event.album_url}" target="_blank" class="past-event-link"><i class="fas fa-external-link-alt"></i> ${lang === 'zh' ? '查看相簿' : 'View Album'}</a>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 顯示講師詳細資訊（第二層 Modal）
+        function showSpeakerDetail(speakerId) {
+            const sp = siteData.speakers.find(s => s.id === speakerId);
+            if (!sp) return;
+
+            const lang = currentLang;
+            const name = lang === 'zh' ? sp.name_zh : sp.name_en;
+            const title = lang === 'zh' ? sp.title_zh : sp.title_en;
+            const org = lang === 'zh' ? sp.organization_zh : sp.organization_en;
+            const bio = lang === 'zh' ? sp.full_bio_zh : sp.full_bio_en;
+            const topic = lang === 'zh' ? sp.topic_zh : sp.topic_en;
+            const expertise = lang === 'zh' ? sp.expertise_zh : sp.expertise_en;
+
+            const photoHtml = sp.photo_url
+                ? `<img src="${sp.photo_url}" alt="${name}">`
+                : '<i class="fas fa-user"></i>';
+
+            document.getElementById('speaker-detail-content').innerHTML = `
+                <div class="speaker-detail">
+                    <div class="speaker-detail-avatar">${photoHtml}</div>
+                    <div class="speaker-detail-body">
+                        <h3>${name}</h3>
+                        <div class="tag-row">
+                            <span class="speaker-tag"><i class="fas fa-briefcase"></i> ${title}</span>
+                            <span class="speaker-tag"><i class="fas fa-university"></i> ${org}</span>
+                        </div>
+                        ${bio ? `<div class="speaker-section-label">${lang === 'zh' ? '個人簡介' : 'Biography'}</div><p>${bio}</p>` : ''}
+                        ${topic ? `<div class="speaker-section-label">${lang === 'zh' ? '演講題目' : 'Presentation Topic'}</div><p>${topic}</p>` : ''}
+                        ${expertise ? `<div class="speaker-section-label">${lang === 'zh' ? '專長領域' : 'Expertise'}</div><p>${expertise}</p>` : ''}
+                    </div>
+                </div>`;
+
+            document.getElementById('speaker-modal').classList.add('show');
+        }
+
+        // 初始化報名按鈕
+        function initRegisterButtons() {
+            const registerBtn = document.getElementById('register-btn');
+            const floatingBtn = document.getElementById('floating-register-btn');
+
+            [registerBtn, floatingBtn].forEach(btn => {
+                if (btn) {
+                    btn.addEventListener('click', showPrivacyModal);
+                }
+            });
+        }
+
+        // 顯示個資宣告 Modal
+        function showPrivacyModal() {
+            if (siteData.settings.registration_status !== 'open') return;
+
+            const modal = document.getElementById('privacy-modal');
+            const title = document.getElementById('privacy-title');
+            const content = document.getElementById('privacy-content');
+            const checkboxText = document.getElementById('privacy-checkbox-text');
+            const checkbox = document.getElementById('privacy-checkbox');
+            const confirmBtn = document.getElementById('privacy-confirm');
+
+            if (siteData.privacy) {
+                title.textContent = currentLang === 'zh' ? siteData.privacy.title_zh : siteData.privacy.title_en;
+                content.innerHTML = currentLang === 'zh' ? siteData.privacy.content_zh : siteData.privacy.content_en;
+                checkboxText.textContent = currentLang === 'zh' ? siteData.privacy.checkbox_text_zh : siteData.privacy.checkbox_text_en;
+            }
+
+            checkbox.checked = false;
+            confirmBtn.disabled = true;
+
+            modal.classList.add('show');
+        }
+
+        // 初始化語言切換
+        function initLanguage() {
+            const langBtns = document.querySelectorAll('.lang-btn');
+
+            langBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const lang = btn.dataset.lang;
+                    setLanguage(lang);
+                });
+            });
+
+            updateLanguageUI();
+            // 頁面初始化時立即套用語言（含導航選單）
+            updateTitles();
+        }
+
+        // 設定語言
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('conference-lang', lang);
+            updateLanguageUI();
+            updateContent();
+        }
+
+        // 更新語言UI
+        function updateLanguageUI() {
+            const langBtns = document.querySelectorAll('.lang-btn');
+            langBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === currentLang);
+            });
+        }
+
+        // 更新內容語言（語言切換 & 資料載入後都會呼叫）
+        function updateContent() {
+            if (siteData.settings) {
+                updateHero();
+                updateCountdown();
+                updateRegisterButton();
+            }
+            if (siteData.news)       renderNews();
+            if (siteData.sponsors)  renderSponsors();
+            if (siteData.downloads) renderDownloads();
+            if (siteData.faq)       renderFaq();
+            if (siteData.settings)  { renderLivestream(); renderStats(); renderQrCode(); updateSocialLinks(); }
+            if (siteData.about)      renderAbout();
+            if (siteData.speakers)   renderSpeakers();
+            if (siteData.agenda)     renderAgenda();
+            if (siteData.traffic)    renderTraffic();
+            // renderPastEvents 已改為雲端連結，不在頁面顯示
+
+            // 導航選單、section 標題、UI 文字
+            updateTitles();
+        }
+
+        // 更新所有標題
+        function updateTitles() {
+            const isEn = currentLang !== 'zh';
+
+            // ── Section 標題 ──
+            const titles = {
+                'news-title':          ['最新消息', 'Latest News'],
+                'news-subtitle':       ['會議相關最新公告與資訊', 'Latest announcements and updates'],
+                'about-title':         ['會議介紹', 'About Conference'],
+                'about-subtitle':      ['了解本次會議的詳細內容', 'Learn about the conference details'],
+                'speakers-title':      ['講師介紹', 'Speakers'],
+                'speakers-subtitle':   ['來自各領域的專業講師', 'Professional speakers from various fields'],
+                'agenda-title':        ['會議議程', 'Conference Agenda'],
+                'agenda-subtitle':     ['完整的會議時程安排', 'Complete conference schedule'],
+                'traffic-title':       ['交通資訊', 'Transportation'],
+                'traffic-subtitle':    ['如何前往會場', 'How to get to the venue'],
+                'past-events-title':   ['歷年會議', 'Past Events'],
+                'sponsors-title':      ['贊助單位', 'Sponsors'],
+                'sponsors-subtitle':   ['感謝各單位的支持與贊助', 'Thank you to all our sponsors'],
+                'downloads-title':     ['下載專區', 'Downloads'],
+                'downloads-subtitle':  ['會議相關文件下載', 'Conference documents & materials'],
+                'livestream-title':    ['線上直播', 'Live Stream'],
+                'livestream-subtitle': ['無法親臨現場？線上同步收看', 'Join us online'],
+                'faq-title':           ['常見問題', 'FAQ'],
+                'faq-subtitle':        ['有任何疑問歡迎參閱', 'Answers to common questions'],
+                'subscribe-title':     ['訂閱最新消息', 'Subscribe for Updates'],
+                'subscribe-desc':      ['輸入 Email，第一時間收到會議最新公告', 'Get the latest news delivered to your inbox'],
+                'qr-title':            ['掃碼報名', 'Scan to Register'],
+                'qr-subtitle':         ['使用手機掃描 QR Code 快速進入報名頁', 'Scan the QR Code with your phone'],
+                'qr-label':            ['立即報名', 'Register Now'],
+                'past-events-subtitle':['回顧過往精彩活動', 'Review past wonderful events']
+            };
+
+            Object.keys(titles).forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = titles[id][isEn ? 1 : 0];
+            });
+
+            // ── 導航選單文字：讀 data-zh / data-en ──
+            document.querySelectorAll('.navbar-link[data-zh]').forEach(link => {
+                // 用 span.nav-text 包住文字，icon 不受影響
+                let span = link.querySelector('.nav-text');
+                if (!span) {
+                    // 第一次：把現有 textContent 包進 span
+                    span = document.createElement('span');
+                    span.className = 'nav-text';
+                    span.textContent = link.textContent.trim();
+                    link.textContent = '';
+                    link.appendChild(span);
+                }
+                span.textContent = isEn ? (link.dataset.en || link.dataset.zh) : link.dataset.zh;
+            });
+
+            // ── 浮動按鈕文字 ──
+            const floatingLabel = document.getElementById('floating-btn-label');
+            if (floatingLabel) floatingLabel.textContent = isEn ? 'Register Now' : '立即報名';
+
+            // ── 個資 Modal 按鈕文字 ──
+            const privacyConfirm = document.getElementById('privacy-confirm');
+            if (privacyConfirm) privacyConfirm.textContent = isEn ? 'Go to Registration Form' : '前往報名表單';
+            const privacyCancel = document.getElementById('privacy-cancel');
+            if (privacyCancel) privacyCancel.textContent = isEn ? 'Cancel' : '取消';
+
+            // ── 倒數計時標籤 ──
+            const cdLabels = document.querySelectorAll('.countdown-label');
+            const cdTexts = isEn
+                ? ['Days', 'Hours', 'Minutes', 'Seconds']
+                : ['天', '時', '分', '秒'];
+            cdLabels.forEach((el, i) => { if (cdTexts[i]) el.textContent = cdTexts[i]; });
+
+            // ── 查看詳細按鈕（重新渲染時會自帶，這裡補靜態備用）──
+            document.querySelectorAll('.speaker-detail-btn').forEach(btn => {
+                const icon = btn.querySelector('i');
+                btn.innerHTML = '';
+                if (icon) btn.appendChild(icon);
+                btn.append(` ${isEn ? 'View Profile' : '查看詳細'}`);
+            });
+
+            // Footer 多語
+            if (siteData.settings) updateFooter();
+        }
+
+        // 初始化手機選單
+        function initMobileMenu() {
+            const toggle = document.getElementById('mobile-menu-toggle');
+            const menu = document.getElementById('navbar-menu');
+
+            toggle.addEventListener('click', () => {
+                menu.classList.toggle('mobile-menu-open');
+                toggle.classList.toggle('active');
+            });
+
+            // 點擊選單項目後關閉手機選單
+            const menuLinks = menu.querySelectorAll('.navbar-link');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.remove('mobile-menu-open');
+                    toggle.classList.remove('active');
+                });
+            });
+        }
+
+        // 工具函數
+        function showLoading(show) {
+            const loading = document.getElementById('loading-state');
+            if (show) {
+                loading.classList.remove('hidden');
+            } else {
+                loading.classList.add('hidden');
+            }
+        }
+
+        function showError(message) {
+            showLoading(false);
+            const errEl = document.getElementById('error-state');
+            if (errEl) {
+                errEl.classList.remove('hidden');
+                const msgEl = document.getElementById('error-message');
+                if (msgEl) msgEl.textContent = message;
+                const urlEl = document.getElementById('error-api-url');
+                // API_DEFAULT_URL 在這個作用域一定存在
+                if (urlEl) urlEl.textContent = typeof activeApiBaseUrl !== 'undefined'
+                    ? activeApiBaseUrl : (typeof API_DEFAULT_URL !== 'undefined' ? API_DEFAULT_URL : '未設定');
+            }
+        }
+
+        // ── 數據展示 ──
+        function renderStats() {
+            const s = siteData.settings || {};
+            const lang = currentLang;
+            const stats = [
+                { num: s.stat_speakers || '', label: lang==='zh'?(s.stat_speakers_label_zh||'位講師'):(s.stat_speakers_label_en||'Speakers') },
+                { num: s.stat_sessions || '', label: lang==='zh'?(s.stat_sessions_label_zh||'場議程'):(s.stat_sessions_label_en||'Sessions') },
+                { num: s.stat_attendees|| '', label: lang==='zh'?(s.stat_attendees_label_zh||'位與會者'):(s.stat_attendees_label_en||'Attendees') },
+                { num: s.stat_years   || '', label: lang==='zh'?(s.stat_years_label_zh||'年舉辦經驗'):(s.stat_years_label_en||'Years') },
+            ].filter(x => x.num);
+            const row = document.getElementById('stats-row');
+            if (!row) return;
+            if (stats.length === 0) { document.getElementById('stats-section').classList.add('hidden'); return; }
+            document.getElementById('stats-section').classList.remove('hidden');
+            row.innerHTML = stats.map(s=>`
+                <div class="stat-card">
+                    <div class="stat-number" data-target="${s.num}">0</div>
+                    <div class="stat-label">${s.label}</div>
+                </div>`).join('');
+            // 數字滾動動畫
+            row.querySelectorAll('.stat-number').forEach(el => {
+                const target = parseInt(el.dataset.target) || 0;
+                if (isNaN(target)) { el.textContent = el.dataset.target; return; }
+                let start = 0; const dur = 1500; const step = 16;
+                const inc = target / (dur/step);
+                const timer = setInterval(() => {
+                    start = Math.min(start+inc, target);
+                    el.textContent = Math.round(start).toLocaleString();
+                    if (start >= target) clearInterval(timer);
+                }, step);
+            });
+        }
+
+        // ── 贊助商 ──
+        async function loadSponsors() {
+            try {
+                const res = await apiFetch('getSponsors');
+                if (res.success) { siteData.sponsors = res.data; renderSponsors(); }
+            } catch(e) { console.error('載入贊助商失敗:', e); }
+        }
+        function renderSponsors() {
+            const container = document.getElementById('sponsors-content');
+            if (!container) return;
+            const sponsors = siteData.sponsors || [];
+            const lang = currentLang;
+            if (sponsors.length === 0) { document.getElementById('sponsors-section').classList.add('hidden'); return; }
+            document.getElementById('sponsors-section').classList.remove('hidden');
+            const tierNames = { platinum:{zh:'白金贊助',en:'Platinum'}, gold:{zh:'金級贊助',en:'Gold'}, silver:{zh:'銀級贊助',en:'Silver'}, bronze:{zh:'銅級贊助',en:'Bronze'}, supporter:{zh:'支持單位',en:'Supporter'} };
+            const tierColors = { platinum:'tier-platinum', gold:'tier-gold', silver:'tier-silver', bronze:'tier-bronze', supporter:'tier-supporter' };
+            const grouped = {};
+            sponsors.forEach(sp => { (grouped[sp.tier] = grouped[sp.tier]||[]).push(sp); });
+            container.innerHTML = Object.keys(grouped).map(tier => {
+                const label = tierNames[tier] ? (lang==='zh'?tierNames[tier].zh:tierNames[tier].en) : tier;
+                const logos = grouped[tier].map(sp => {
+                    const name = lang==='zh'?sp.name_zh:sp.name_en;
+                    const inner = sp.logo_url ? `<img src="${sp.logo_url}" alt="${name}">` : `<span class="sponsor-name-text">${name}</span>`;
+                    return sp.website_url
+                        ? `<a href="${sp.website_url}" target="_blank" rel="noopener" class="sponsor-logo-card">${inner}</a>`
+                        : `<div class="sponsor-logo-card">${inner}</div>`;
+                }).join('');
+                return `<div class="sponsor-tier">
+                    <div class="sponsor-tier-label ${tierColors[tier]||'tier-supporter'}">${label}</div>
+                    <div class="sponsor-logos">${logos}</div>
+                </div>`;
+            }).join('');
+        }
+
+        // ── 下載專區 ──
+        async function loadDownloads() {
+            try {
+                const res = await apiFetch('getDownloads');
+                if (res.success) { siteData.downloads = res.data; renderDownloads(); }
+            } catch(e) { console.error('載入下載失敗:', e); }
+        }
+        function renderDownloads() {
+            const container = document.getElementById('downloads-content');
+            if (!container) return;
+            const items = siteData.downloads || [];
+            const lang = currentLang;
+            if (items.length === 0) { document.getElementById('downloads-section').classList.add('hidden'); return; }
+            document.getElementById('downloads-section').classList.remove('hidden');
+            const catIcons = { agenda:'fas fa-calendar-alt', presentation:'fas fa-file-powerpoint', manual:'fas fa-book', form:'fas fa-file-alt', general:'fas fa-download' };
+            container.innerHTML = items.map(item => {
+                const title = lang==='zh'?item.title_zh:item.title_en;
+                const icon = catIcons[item.category]||catIcons.general;
+                return item.file_url
+                    ? `<a href="${item.file_url}" target="_blank" rel="noopener" class="download-card">
+                           <div class="download-icon"><i class="${icon}"></i></div>
+                           <div class="download-card-body">
+                               <div class="download-title">${title}</div>
+                               <div class="download-meta"><i class="fas fa-arrow-down"></i> ${lang==='zh'?'點擊下載':'Click to Download'}</div>
+                           </div>
+                       </a>`
+                    : `<div class="download-card" style="opacity:.6;cursor:default;">
+                           <div class="download-icon"><i class="${icon}"></i></div>
+                           <div class="download-card-body">
+                               <div class="download-title">${title}</div>
+                               <div class="download-meta">${lang==='zh'?'即將上架':'Coming Soon'}</div>
+                           </div>
+                       </div>`;
+            }).join('');
+        }
+
+        // ── 直播 / 線上參與（支援 YouTube / Teams / Webex / Zoom / Meet / 自訂）──
+        function renderLivestream() {
+            const s = siteData.settings || {};
+            const lang = currentLang;
+            const isZh = lang === 'zh';
+            const section = document.getElementById('livestream-section');
+            if (!section) return;
+
+            // 平台定義
+            const platforms = [
+                {
+                    key: 'livestream_youtube',
+                    type: 'youtube',
+                    icon: 'fab fa-youtube',
+                    nameZh: 'YouTube 直播',
+                    nameEn: 'YouTube Live',
+                    descZh: s.livestream_youtube_desc_zh || '線上同步收看直播',
+                    descEn: s.livestream_youtube_desc_en || 'Watch the live stream online',
+                    btnZh: '立即收看',
+                    btnEn: 'Watch Now',
+                    btnIcon: 'fas fa-play'
+                },
+                {
+                    key: 'livestream_teams',
+                    type: 'teams',
+                    icon: 'fas fa-users',
+                    nameZh: 'Microsoft Teams',
+                    nameEn: 'Microsoft Teams',
+                    descZh: s.livestream_teams_desc_zh || '加入 Teams 線上會議',
+                    descEn: s.livestream_teams_desc_en || 'Join via Microsoft Teams',
+                    btnZh: '加入會議',
+                    btnEn: 'Join Meeting',
+                    btnIcon: 'fas fa-video'
+                },
+                {
+                    key: 'livestream_webex',
+                    type: 'webex',
+                    icon: 'fas fa-video',
+                    nameZh: 'Cisco Webex',
+                    nameEn: 'Cisco Webex',
+                    descZh: s.livestream_webex_desc_zh || '加入 Webex 線上會議',
+                    descEn: s.livestream_webex_desc_en || 'Join via Cisco Webex',
+                    btnZh: '加入會議',
+                    btnEn: 'Join Meeting',
+                    btnIcon: 'fas fa-video'
+                },
+                {
+                    key: 'livestream_zoom',
+                    type: 'zoom',
+                    icon: 'fas fa-camera',
+                    nameZh: 'Zoom 會議',
+                    nameEn: 'Zoom Meeting',
+                    descZh: s.livestream_zoom_desc_zh || '加入 Zoom 線上會議',
+                    descEn: s.livestream_zoom_desc_en || 'Join via Zoom',
+                    btnZh: '加入會議',
+                    btnEn: 'Join Meeting',
+                    btnIcon: 'fas fa-video'
+                },
+                {
+                    key: 'livestream_meet',
+                    type: 'meet',
+                    icon: 'fab fa-google',
+                    nameZh: 'Google Meet',
+                    nameEn: 'Google Meet',
+                    descZh: s.livestream_meet_desc_zh || '加入 Google Meet',
+                    descEn: s.livestream_meet_desc_en || 'Join via Google Meet',
+                    btnZh: '加入會議',
+                    btnEn: 'Join Meeting',
+                    btnIcon: 'fas fa-video'
+                },
+                {
+                    key: 'livestream_custom',
+                    type: 'custom',
+                    icon: 'fas fa-globe',
+                    nameZh: s.livestream_custom_name_zh || '線上參與',
+                    nameEn: s.livestream_custom_name_en || 'Online Participation',
+                    descZh: s.livestream_custom_desc_zh || '點擊連結加入線上活動',
+                    descEn: s.livestream_custom_desc_en || 'Click the link to join online',
+                    btnZh: '加入活動',
+                    btnEn: 'Join Event',
+                    btnIcon: 'fas fa-external-link-alt'
+                }
+            ];
+
+            // 只顯示有設定 URL 的平台
+            const activePlatforms = platforms.filter(p => s[p.key]);
+
+            if (activePlatforms.length === 0) {
+                section.classList.add('hidden');
+                return;
+            }
+            section.classList.remove('hidden');
+
+            const titleZh = s.livestream_title_zh || '線上直播 ／ 線上參與';
+            const titleEn = s.livestream_title_en || 'Live Stream / Online Participation';
+            const descZh  = s.livestream_desc_zh  || '無法親臨現場？透過以下平台線上參與';
+            const descEn  = s.livestream_desc_en  || "Can't make it in person? Join us online via:";
+            const noticeZh = s.livestream_notice_zh || '';
+            const noticeEn = s.livestream_notice_en || '';
+
+            const cards = activePlatforms.map(p => `
+                <div class="platform-card ${p.type}">
+                    <div class="platform-icon"><i class="${p.icon}"></i></div>
+                    <h4>${isZh ? p.nameZh : p.nameEn}</h4>
+                    <p>${isZh ? p.descZh : p.descEn}</p>
+                    <a href="${s[p.key]}" target="_blank" rel="noopener" class="platform-join-btn">
+                        <i class="${p.btnIcon}"></i>
+                        ${isZh ? p.btnZh : p.btnEn}
+                    </a>
+                </div>`).join('');
+
+            const notice = (isZh ? noticeZh : noticeEn)
+                ? `<div class="livestream-notice">
+                       <i class="fas fa-info-circle"></i>
+                       ${isZh ? noticeZh : noticeEn}
+                   </div>` : '';
+
+            document.getElementById('livestream-content').innerHTML = `
+                <div class="livestream-header">
+                    <h3>${isZh ? titleZh : titleEn}</h3>
+                    <p>${isZh ? descZh : descEn}</p>
+                </div>
+                <div class="livestream-platforms">${cards}</div>
+                ${notice}`;
+        }
+
+        // ── FAQ ──
+        async function loadFaq() {
+            try {
+                const res = await apiFetch('getFaq');
+                if (res.success) { siteData.faq = res.data; renderFaq(); }
+            } catch(e) { console.error('載入FAQ失敗:', e); }
+        }
+        function renderFaq() {
+            const container = document.getElementById('faq-content');
+            if (!container) return;
+            const items = siteData.faq || [];
+            const lang = currentLang;
+            if (items.length === 0) { document.getElementById('faq-section').classList.add('hidden'); return; }
+            document.getElementById('faq-section').classList.remove('hidden');
+            container.innerHTML = items.map(item => {
+                const q = lang==='zh'?item.question_zh:item.question_en;
+                const a = lang==='zh'?item.answer_zh:item.answer_en;
+                return `<div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>${q}</span>
+                        <i class="fas fa-chevron-down faq-chevron"></i>
+                    </div>
+                    <div class="faq-answer">${a}</div>
+                </div>`;
+            }).join('');
+        }
+        function toggleFaq(el) {
+            el.classList.toggle('open');
+            const ans = el.nextElementSibling;
+            ans.classList.toggle('open');
+        }
+
+        // ── Email 訂閱 ──
+        function initSubscribe() {
+            const btn = document.getElementById('subscribe-btn');
+            if (!btn) return;
+            btn.addEventListener('click', async () => {
+                const email = document.getElementById('subscribe-email').value.trim();
+                const result = document.getElementById('subscribe-result');
+                if (!email) { result.textContent = '請輸入 Email'; return; }
+                try {
+                    const url = `${activeApiBaseUrl}?action=saveSubscriber&email=${encodeURIComponent(email)}`;
+                    const res = await fetch(url, {method:'GET',redirect:'follow'});
+                    const data = await res.json();
+                    result.textContent = data.success ? (currentLang==='zh'?'✅ 訂閱成功！感謝您的關注':'✅ Subscribed successfully!') : '❌ ' + data.error;
+                    if (data.success) document.getElementById('subscribe-email').value = '';
+                } catch(e) { result.textContent = '❌ 訂閱失敗，請稍後再試'; }
+            });
+            // subscribe-section 顯示控制（只要有 settings 就顯示）
+            const sec = document.getElementById('subscribe-section');
+            if (sec) sec.classList.remove('hidden');
+        }
+
+        // ── QR Code（用 api.qrserver.com 動態產生）──
+        function renderQrCode() {
+            const s = siteData.settings || {};
+            const formUrl = s.registration_form_url || '';
+            const wrap = document.getElementById('qr-image-wrap');
+            if (!wrap || !formUrl) return;
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(formUrl)}`;
+            wrap.innerHTML = `<img src="${qrUrl}" alt="QR Code" style="width:120px;height:120px;border-radius:12px;">`;
+        }
+
+        // ── Cookie Banner ──
+        function initCookieBanner() {
+            const banner = document.getElementById('cookie-banner');
+            if (!banner) return;
+            if (localStorage.getItem('cookie-consent')) return; // 已同意過
+            setTimeout(() => banner.classList.add('show'), 1500);
+            document.getElementById('cookie-accept').addEventListener('click', () => {
+                localStorage.setItem('cookie-consent','accepted');
+                banner.classList.remove('show');
+            });
+            document.getElementById('cookie-decline').addEventListener('click', () => {
+                localStorage.setItem('cookie-consent','declined');
+                banner.classList.remove('show');
+            });
+        }
+
+        // 歷年會議：選單點擊後開啟雲端相簿
+        function openPastEventsAlbum(e) {
+            e.preventDefault();
+            const events = siteData.pastEvents || [];
+            if (events.length === 0) {
+                alert(currentLang === 'zh' ? '目前沒有歷年會議資料' : 'No past events available');
+                return;
+            }
+            // 若只有一筆，直接開啟；多筆則顯示選擇清單
+            if (events.length === 1) {
+                if (events[0].album_url) window.open(events[0].album_url, '_blank', 'noopener');
+                else alert(currentLang === 'zh' ? '尚未設定相簿連結' : 'Album URL not set');
+                return;
+            }
+            // 多筆：用 Modal 顯示列表
+            const lang = currentLang;
+            const listHtml = events.map(ev => `
+                <div style="padding:12px 0; border-bottom:1px solid #e5e7eb; display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <div style="font-weight:600; color:#1f2937;">${ev.year} ${lang === 'zh' ? ev.title_zh : ev.title_en}</div>
+                        <div style="font-size:13px; color:#6b7280;">${lang === 'zh' ? ev.description_zh : ev.description_en}</div>
+                    </div>
+                    ${ev.album_url
+                        ? `<a href="${ev.album_url}" target="_blank" rel="noopener"
+                             style="background:#1e40af;color:#fff;padding:7px 16px;border-radius:8px;font-size:13px;text-decoration:none;white-space:nowrap;margin-left:16px;">
+                             <i class="fas fa-images"></i> ${lang === 'zh' ? '開啟相簿' : 'Open Album'}
+                           </a>`
+                        : `<span style="color:#9ca3af;font-size:13px;margin-left:16px;">${lang === 'zh' ? '無相簿' : 'N/A'}</span>`
+                    }
+                </div>`).join('');
+
+            document.getElementById('speaker-detail-content').innerHTML = `
+                <h2 style="font-size:20px;font-weight:700;margin-bottom:20px;">
+                    ${lang === 'zh' ? '歷年會議相簿' : 'Past Event Albums'}
+                </h2>
+                ${listHtml}`;
+            document.getElementById('speaker-modal').classList.add('show');
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString(currentLang === 'zh' ? 'zh-TW' : 'en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // Modal 事件監聽
+        document.getElementById('privacy-modal-close').addEventListener('click', () => {
+            document.getElementById('privacy-modal').classList.remove('show');
+        });
+
+        document.getElementById('privacy-cancel').addEventListener('click', () => {
+            document.getElementById('privacy-modal').classList.remove('show');
+        });
+
+        document.getElementById('privacy-checkbox').addEventListener('change', (e) => {
+            document.getElementById('privacy-confirm').disabled = !e.target.checked;
+        });
+
+        document.getElementById('privacy-confirm').addEventListener('click', () => {
+            const formUrl = siteData.settings.registration_form_url;
+            if (formUrl) {
+                window.open(formUrl, '_blank', 'noopener,noreferrer');
+            }
+            document.getElementById('privacy-modal').classList.remove('show');
+        });
+
+        document.getElementById('speaker-modal-close').addEventListener('click', () => {
+            document.getElementById('speaker-modal').classList.remove('show');
+        });
+
+        // 點擊 Modal 背景關閉
+        document.getElementById('privacy-modal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                e.target.classList.remove('show');
+            }
+        });
+
+        document.getElementById('speaker-modal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                e.target.classList.remove('show');
+            }
+        });
+
+        // 平滑滾動到區塊
+        document.querySelectorAll('.navbar-link[data-section]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const section = document.getElementById(link.dataset.section + '-section');
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
